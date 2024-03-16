@@ -1,21 +1,35 @@
 import { ReactNode, FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Escola } from "../interfaces";
+import { useLocation } from "react-router-dom";
 
-export const Header: FC<{ children?: ReactNode, customClass?: string }> = (props) => {
-    return (
-        <header className={"bg-white z-10 w-full py-5 px-10 shadow-md shadow-gray-200 flex " + props.customClass}>
-        <Link to='/' className="text-black cursor-pointer hover:scale-105 duration-150 whitespace-nowrap mt-1 font-semibold font-sans text-2xl mb-1 md:float-start">
-          Escola <span className="font-bold text-blue-500">transparente</span>
-        </Link>
-        {props.children}
-        <div className="place-content-around ml-auto w-60 space-x-3 flex h-8 invisible md:visible">
-          <button className="h-10 w-28 md:visible invisible border-blue-500 border hover:bg-blue-600 duration-300 hover:text-white font-sans font-semibold rounded-md text-blue-500">
-            Entrar
-          </button>
-          <button className="h-10 w-28 md:visible invisible bg-blue-500 font-sans hover:bg-blue-600 duration-300 font-semibold rounded-md text-white">
-            Cadastrar
-          </button>
-        </div>
-      </header>
-    )
-}
+export const Header: FC<{ children?: ReactNode; customClass?: string, escolas?: Escola[] }> = (
+  props
+) => {
+  const pathname = useLocation().pathname;
+  const navigate = useNavigate();
+  return (
+    <header
+      className={
+        "bg-blue-500 z-10 w-full py-5 px-10 shadow-md shadow-gray-200 flex " +
+        props.customClass
+      }
+    >
+      <Link
+        to="/"
+        className="text-slate-900 cursor-pointer hover:scale-105 duration-150 whitespace-nowrap mt-1 font-semibold font-sans text-2xl mb-1 md:float-start"
+      >
+        Escola <span className="font-bold text-white">transparente</span>
+      </Link>
+      {props.children}
+      {props.escolas && <div className={`ml-auto ${!props.children && "-mr-1"} w-60 space-x-3 h-8 hidden md:flex`}>
+        <button onClick={() => navigate("/login", { state: { escolas: props.escolas } })} className={`h-10 w-28 md:visible invisible ${pathname === '/login' && "bg-[#488cf9]"} border-white border hover:bg-[#488cf9] duration-300 text-white font-sans font-semibold rounded-xl`}>
+        Entrar
+        </button>
+        <button  onClick={() => navigate("/signup", { state: { escolas: props.escolas } })}  className={`h-10 w-28 md:visible invisible ${pathname === '/signup' ?  "bg-slate-200" : "bg-white"} font-sans hover:bg-slate-200 duration-300 font-semibold rounded-xl text-slate-700`}>
+        Cadastrar
+        </button>
+      </div>}
+    </header>
+  );
+};

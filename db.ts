@@ -15,8 +15,8 @@ async function run() {
     await client.connect();
     database = client.db("db");
     collection = database.collection("Reclamações");
-  } catch {
-    console.log('Erro!');
+  } catch(Exception) {
+    console.log(Exception);
   }
 }
 

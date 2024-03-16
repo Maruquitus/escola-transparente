@@ -6,13 +6,28 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import Index from './pages/Index';
+import Landing from './pages/Landing';
 import Erro404 from './pages/404';
+import Search from './pages/Search';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index/>,
+    element: <Landing/>,
+  },
+  {
+    path: "/search",
+    element: <Search/>,
+  },
+  {
+    path: "/login",
+    element: <Login/>,
+  },
+  {
+    path: "/signup",
+    element: <SignUp/>,
   },
   {
     path: "*",
