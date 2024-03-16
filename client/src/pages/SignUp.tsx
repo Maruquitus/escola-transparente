@@ -12,7 +12,7 @@ export default function SignUp() {
         <div>
             <Header escolas={escolas}/>
             <main className="flex">
-        <div className="w-2/5 my-auto">
+        <div className="w-full sm:w-2/5 my-auto">
           <div className="self-center p-4 grid mx-auto mt-20 sm:ml-8">
             <h1 className="text-slate-900 font-sans font-bold text-2xl text-center">
               Seja bem vindo! Insira suas informações.
@@ -63,7 +63,7 @@ export default function SignUp() {
             <span className="text-red-500 text-center font-semibold"></span>
           </div>
         </div>
-        <img className="w-4/12 mx-auto mt-16" src={SVG} />
+        <img className="w-4/12 sm:block hidden mx-auto mt-16" src={SVG} />
       </main>
             <MobileNav escolas={escolas}/>
         </div>
