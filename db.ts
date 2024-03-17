@@ -3,7 +3,7 @@ import { configDotenv } from "dotenv";
 configDotenv();
 const URL_BD = process.env.URL_BD as string;
 
-const credentials = "cert.pem";
+const credentials = "/etc/secrets/cert.pem";
 const client = new MongoClient(URL_BD, {
   tlsCertificateKeyFile: credentials,
   serverApi: ServerApiVersion.v1,
