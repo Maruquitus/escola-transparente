@@ -685,10 +685,6 @@ video {
   width: 91.666667%;
 }
 
-.w-2\/5 {
-  width: 40%;
-}
-
 .w-28 {
   width: 7rem;
 }
@@ -1022,10 +1018,6 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:visible {
-    visibility: visible;
-  }
-
   .sm\:ml-8 {
     margin-left: 2rem;
   }
@@ -1034,12 +1026,12 @@ video {
     display: block;
   }
 
-  .sm\:w-5\/12 {
-    width: 41.666667%;
-  }
-
   .sm\:w-2\/5 {
     width: 40%;
+  }
+
+  .sm\:w-5\/12 {
+    width: 41.666667%;
   }
 
   .sm\:scale-90 {
