@@ -11,34 +11,32 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import { Escola } from "./interfaces";
 
+
 const carregarEscolas = async () => {
   const data: Escola[] = await fetch("http://localhost:3001/api")
-  .then(async (res: Response) => {
-    const data: Escola[] = await res.json();
-    return data;
-  })
-  .catch(() => {
-    throw new Response("Não foi possível carregar as escolas da API.");
-  });
-  return data
-}
+    .then(async (res: Response) => {
+      const data: Escola[] = await res.json();
+      return data;
+    })
+    .catch((e) => {
+      throw new Response(e);
+    });
+    return data
+  }
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Landing />,
     errorElement: <Error />,
-    loader: async () => {
-      return await carregarEscolas();
-    },
+    loader:  async () => {return await carregarEscolas()}
+      
   },
   {
     path: "/search",
     element: <Search />,
     errorElement: <Error />,
-    loader: async () => {
-      return await carregarEscolas();
-    },
+    loader: async () => {return await carregarEscolas()}
   },
   {
     path: "/login",
