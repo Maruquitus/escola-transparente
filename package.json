@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "start-react": "cd client && npm start",
-    "serve-react": "ws --port 3000 --directory client/build --spa index.html",
+    "serve-react": "ws --port 3000 --directory client/build --spa index.html --rewrite \"/api -> http://localhost:3001/api\"",
     "build": "cd client && npm run build",
     "tailwind": "cd client && npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "start-production": "concurrently \"npm run start\" \"npm run serve-react\"",
