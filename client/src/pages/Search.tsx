@@ -5,16 +5,10 @@ import { formatar } from "../functions";
 import Erro404 from "./404";
 import SVG from "../assets/search.svg";
 import { MobileNav } from "../components/MobileNav";
-import React from "react";
+import { useLoaderData } from "react-router-dom";
 
 export default function Search() {
-  const [escolas, setEscolas] = React.useState<Escola[]>([]);
-  React.useEffect(() => {
-    fetch("http://localhost:3001/api").then(async (res: Response) => {
-      const data: Escola[] = await res.json();
-      setEscolas(data);
-    });
-  }, []);
+  const escolas: Escola[] = useLoaderData() as Escola[];
   return (
     <div className="w-full h-full flex-col flex">
       <div className="md:block hidden">

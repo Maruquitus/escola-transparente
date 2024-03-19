@@ -4,16 +4,11 @@ import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { Escola } from "../interfaces";
 import { formatar } from "../functions";
 import { MobileNav } from "../components/MobileNav";
+import { useLoaderData } from "react-router-dom";
+import { Loader } from "../components/Loader";
 
 export default function Landing() {
-  const [escolas, setEscolas] = React.useState<Escola[]>([]);
-  React.useEffect(() => {
-    fetch("http://localhost:3001/api").then(async (res: Response) => {
-      const data: Escola[] = await res.json();
-      setEscolas(data);
-    });
-  }, []);
-
+  const escolas: Escola[] = useLoaderData() as Escola[];
   return (
     <div className="w-full h-full flex-col flex">
       <Header>

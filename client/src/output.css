@@ -721,6 +721,10 @@ video {
   width: 100%;
 }
 
+.w-8\/12 {
+  width: 66.666667%;
+}
+
 .scale-75 {
   --tw-scale-x: .75;
   --tw-scale-y: .75;
@@ -819,11 +823,6 @@ video {
 .bg-slate-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 .bg-white {
@@ -1002,25 +1001,6 @@ video {
   background-color: rgb(72 140 249 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-blue-400:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-blue-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-slate-200:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-\[\]:hover {
-  background-color: ;
-}
-
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1041,6 +1021,10 @@ video {
 
   .sm\:w-5\/12 {
     width: 41.666667%;
+  }
+
+  .sm\:w-6\/12 {
+    width: 50%;
   }
 
   .sm\:scale-90 {
@@ -1091,6 +1075,10 @@ video {
     width: 80%;
   }
 
+  .md\:w-5\/12 {
+    width: 41.666667%;
+  }
+
   .md\:scale-100 {
     --tw-scale-x: 1;
     --tw-scale-y: 1;
@@ -1111,5 +1099,9 @@ video {
 @media (min-width: 1024px) {
   .lg\:w-3\/12 {
     width: 25%;
+  }
+
+  .lg\:w-4\/12 {
+    width: 33.333333%;
   }
 }
