@@ -10,7 +10,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "http://localhost",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })

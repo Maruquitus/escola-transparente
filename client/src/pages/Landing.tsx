@@ -8,7 +8,7 @@ import { MobileNav } from "../components/MobileNav";
 export default function Landing() {
   const [escolas, setEscolas] = React.useState<Escola[]>([]);
   React.useEffect(() => {
-    fetch("/api").then(async (res: Response) => {
+    fetch("http://localhost:3001/api").then(async (res: Response) => {
       const data: Escola[] = await res.json();
       setEscolas(data);
     });
@@ -16,7 +16,7 @@ export default function Landing() {
 
   return (
     <div className="w-full h-full flex-col flex">
-      <Header escolas={escolas}>
+      <Header>
         {/* Pesquisa desktop */}
         <div className="place-content-around w-4/5 flex h-10 invisible md:visible">
           <form autoComplete="off" className="w-full">
@@ -24,7 +24,7 @@ export default function Landing() {
               <ReactSearchAutocomplete
                 styling={{ fontFamily: "Poppins" }}
                 placeholder="Procure uma escola..."
-                showNoResultsText="Escola não encontrada."
+                showNoResultsText={escolas.length > 0 ? "Escola não encontrada." : "Carregando..."}
                 className="self-center mt-10 w-full md:w-4/5 md:mt-0 bottom-0.5 mx-auto"
                 items={escolas}
                 fuseOptions={{ keys: ["nome"] }}
@@ -52,7 +52,7 @@ export default function Landing() {
               Insatisfeito com a infraestrutura de sua escola? Reclame agora
               mesmo!
             </h2>
-            <button className="h-10 w-48 ml-6 mt-4 bg-blue-500 font-sans hover:bg-blue-600 duration-300 font-medium rounded-md text-white">
+            <button className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-md text-white">
               Nova reclamação
             </button>
           </div>
@@ -67,7 +67,7 @@ export default function Landing() {
         <div></div>
       </main>
       {/* Painel mobile */}
-      <MobileNav escolas={escolas}/>
+      <MobileNav/>
       
       <footer className="bottom-1 text-center invisible w-full">
         <a

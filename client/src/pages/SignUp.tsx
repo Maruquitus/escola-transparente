@@ -1,16 +1,12 @@
 import { Header } from "../components/Header";
-import { useLocation } from "react-router-dom";
-import { Escola } from "../interfaces";
 import { MobileNav } from "../components/MobileNav";
 import SVG from "../assets/signup.svg";
 
 
 export default function SignUp() {
-    const state = useLocation().state;
-    const escolas: Escola[] = state.escolas;
     return (
         <div>
-            <Header escolas={escolas}/>
+            <Header/>
             <main className="flex">
         <div className="w-full sm:w-2/5 my-auto">
           <div className="self-center p-4 grid mx-auto mt-20 sm:ml-8">
@@ -54,7 +50,7 @@ export default function SignUp() {
               <div className="flex justify-center">
                 <button
                   id="botão"
-                  className="bg-blue-500 text-white font-sans w-48 h-8 self-center mx-auto rounded-2xl font-bold hover:scale-105 hover:bg-blue-400 ease-in-out duration-300"
+                  className="bg-blue-500 text-white font-sans w-48 h-8 self-center mx-auto rounded-2xl font-bold hover:scale-105 hover:bg-[#488cf9] ease-in-out duration-300"
                 >
                   Registrar
                 </button>
@@ -63,9 +59,9 @@ export default function SignUp() {
             <span className="text-red-500 text-center font-semibold"></span>
           </div>
         </div>
-        <img className="w-4/12 sm:block hidden mx-auto mt-16" src={SVG} />
+        <img alt="" className="w-4/12 sm:block hidden mx-auto mt-16" src={SVG} />
       </main>
-            <MobileNav escolas={escolas}/>
+            <MobileNav/>
         </div>
     )
 }
