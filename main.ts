@@ -10,7 +10,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: ["http://localhost", "http://127.0.0.1", "https://escola-transparente.onrender.com"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
