@@ -12,31 +12,29 @@ import Login from "./pages/Login";
 import { Escola } from "./interfaces";
 
 
-const carregarEscolas = async () => {
-  const data: Escola[] = await fetch("http://localhost:3001/api")
-    .then(async (res: Response) => {
-      const data: Escola[] = await res.json();
-      return data;
-    })
-    .catch((e) => {
-      throw new Response(e);
-    });
-    return data
-  }
+const carregarEscolas = async () => {  
+    return await fetch("http://localhost:3001/api")
+        .then(async (res: Response) => {
+          const data: Escola[] = await res.json();
+          return data;
+        })
+        .catch((e) => {
+          throw new Response(e);
+        });      
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Landing />,
     errorElement: <Error />,
-    loader:  async () => {return await carregarEscolas()}
-      
-  },
+    loader: carregarEscolas,
+    },
   {
     path: "/search",
     element: <Search />,
     errorElement: <Error />,
-    loader: async () => {return await carregarEscolas()}
+    loader: carregarEscolas,
   },
   {
     path: "/login",
