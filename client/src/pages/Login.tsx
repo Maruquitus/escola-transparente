@@ -40,7 +40,7 @@ export default function Login() {
               <div className="flex justify-center">
                 <button
                   id="botão"
-                  className="bg-blue-500 text-white font-sans w-48 h-8 self-center mx-auto rounded-2xl font-bold hover:scale-105 hover:bg-blue-[#488cf9] ease-in-out duration-300"
+                  className="bg-blue-500 text-white font-sans w-48 h-8 self-center mx-auto rounded-xl font-bold hover:scale-105 hover:bg-blue-[#488cf9] ease-in-out duration-300"
                 >
                   Entrar
                 </button>

@@ -47,7 +47,7 @@ export default function Landing() {
               Insatisfeito com a infraestrutura de sua escola? Reclame agora
               mesmo!
             </h2>
-            <button className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-md text-white">
+            <button className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white">
               Nova reclamação
             </button>
           </div>

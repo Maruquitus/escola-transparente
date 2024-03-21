@@ -8,7 +8,9 @@ export const Header: FC<{ children?: ReactNode; customClass?: string}> = (
 ) => {
   const pathname: string = useLocation().pathname;
   const navigate = useNavigate();
-  document.title = `${pathname ? routeTitles[pathname] : "404"} | Escola Transparente`;
+  const title: string = routeTitles[pathname];
+  
+  document.title = `${title ? title : "404"} | Escola Transparente`;
 
   return (
     <header
@@ -19,9 +21,10 @@ export const Header: FC<{ children?: ReactNode; customClass?: string}> = (
     >
       <Link
         to="/"
-        className="text-slate-900 cursor-pointer hover:scale-105 duration-150 whitespace-nowrap mt-1 font-semibold font-sans text-2xl mb-1 md:float-start"
+        className="text-slate-900 flex cursor-pointer hover:scale-105 duration-150 whitespace-nowrap mt-1 font-semibold font-sans text-2xl mb-1 md:float-start"
       >
-        Escola <span className="font-bold text-white">Transparente</span>
+      <img src="logo192.png" className="w-14 h-14 -mt-4 -mb-3 mr-1 aspect-square"/>
+        Escola <span className="font-bold text-white ml-2">Transparente</span>
       </Link>
       {props.children}
       <div className={`ml-auto ${!props.children && "-mr-1"} w-60 space-x-3 h-8 hidden md:flex`}>
