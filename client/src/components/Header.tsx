@@ -8,7 +8,7 @@ export const Header: FC<{ children?: ReactNode; customClass?: string}> = (
 ) => {
   const pathname: string = useLocation().pathname;
   const navigate = useNavigate();
-  document.title = `${routeTitles[pathname]} | Escola Transparente`;
+  document.title = `${pathname ? routeTitles[pathname] : "404"} | Escola Transparente`;
 
   return (
     <header
