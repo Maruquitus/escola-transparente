@@ -39,7 +39,7 @@ export default function Landing() {
             <h1 className="md:text-5xl text-3xl ml-6 mt-32 font-semibold font-sans text-gray-900">
               Seja bem-vindo à <br className="md:inline hidden" /> Escola{" "}
               <span className="font-semibold font-sans text-blue-500">
-                transparente
+                Transparente
               </span>
               !
             </h1>

@@ -1,20 +1,21 @@
-import { Request, Response } from "express";
-import { contarDocs } from "./db";
+import { Request, Response, NextFunction } from "express";
+import { AxiosError } from "axios";
+//import { contarDocs } from "./db";
 import axios from "axios";
 import dotenv from "dotenv";
 const express = require("express");
 const path = require("path");
-const cors = require("cors");
 const app = express();
 dotenv.config();
 
-app.use(
-  cors({
-    origin: ["http://localhost", "http://127.0.0.1", "https://escola-transparente.onrender.com"],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://escola-transparente.onrender.com'];
+  const origin = req.headers.origin as string;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  next();
+});
 
 const port = 3001;
 app.listen(port, () => {
@@ -63,11 +64,11 @@ async function getEscola(codigo_inep: string, nome: string): Promise<Escola> {
     inep_id: codigo_inep,
   };
 
-  const response = await axios.get(url, { params: dados, headers });
+  const response = await axios.get(url, { params: dados, headers, timeout: 1 });
   return response.data as Escola;
 }
 
-async function getEscolas(): Promise<Escola[]> {
+async function getEscolas(retries: number = 3): Promise<Escola[]> {
   const url = "https://api.qedu.org.br/v1/escolas/";
   const headers = {
     Authorization: `Bearer ${api}`,
@@ -77,9 +78,24 @@ async function getEscolas(): Promise<Escola[]> {
     cidade_id: 2303501,
   };
 
-  const response = await axios.get(url, { params: dados, headers });
-  return response.data["data"] as Escola[];
+  let attempt = 0;
+  while (attempt < retries) {
+    try {
+      const response = await axios.get(url, { params: dados, headers });
+      return response.data["data"] as Escola[];
+    } catch (error: any) {
+      if (error.code === 'ETIMEDOUT' && attempt < retries - 1) {
+        console.log(`Request deu TimeOut, Tentativas ${attempt + 1}`);
+        attempt++;
+        continue;
+      }
+      throw error;
+    }
+  }
+
+  throw Error('Número de tentativas de request à API atingido.');
 }
+
 
 
 // Lidar com as solicitações GET feitas à rota /api
@@ -89,10 +105,10 @@ app.get("/api", async (req: Request, res: Response) => {
 });
 
 // Contar documentos da BD
-app.get("/api/contarDocs", async (req: Request, res: Response) => {
+/*app.get("/api/contarDocs", async (req: Request, res: Response) => {
   let resultado: number = await contarDocs();
   res.json(resultado);
-});
+});*/
 
 // Todas as outras solicitações GET não tratadas retornarão nosso app em React
 app.get("*", (req: Request, res: Response) => {

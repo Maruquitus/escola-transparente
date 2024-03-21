@@ -1,12 +1,15 @@
 import { ReactNode, FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { routeTitles } from "../routeTitles";
 
 export const Header: FC<{ children?: ReactNode; customClass?: string}> = (
   props
 ) => {
-  const pathname = useLocation().pathname;
+  const pathname: string = useLocation().pathname;
   const navigate = useNavigate();
+  document.title = `${routeTitles[pathname]} | Escola Transparente`;
+
   return (
     <header
       className={
@@ -18,7 +21,7 @@ export const Header: FC<{ children?: ReactNode; customClass?: string}> = (
         to="/"
         className="text-slate-900 cursor-pointer hover:scale-105 duration-150 whitespace-nowrap mt-1 font-semibold font-sans text-2xl mb-1 md:float-start"
       >
-        Escola <span className="font-bold text-white">transparente</span>
+        Escola <span className="font-bold text-white">Transparente</span>
       </Link>
       {props.children}
       <div className={`ml-auto ${!props.children && "-mr-1"} w-60 space-x-3 h-8 hidden md:flex`}>
