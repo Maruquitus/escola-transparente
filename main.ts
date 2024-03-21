@@ -9,11 +9,14 @@ const app = express();
 dotenv.config();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
+  /*
+  Mudança provisória
   const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://escola-transparente.onrender.com'];
   const origin = req.headers.origin as string;
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
-  }
+  }*/
+  res.setHeader('Access-Control-Allow-Origin', '*')
   next();
 });
 
