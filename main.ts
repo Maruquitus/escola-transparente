@@ -8,12 +8,24 @@ const path = require("path");
 const app = express();
 dotenv.config();
 
+const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://escola-transparente.onrender.com'];
+
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://escola-transparente.onrender.com'];
-  const origin = req.headers.origin as string;
+  const origin = req.headers.origin as string;;
+
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
+  // Allow additional headers and methods
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   next();
 });
 
@@ -98,8 +110,8 @@ async function getEscolas(retries: number = 3): Promise<Escola[]> {
 
 
 
-// Lidar com as solicitações GET feitas à rota /api
-app.get("/api", async (req: Request, res: Response) => {
+// Lidar com as solicitações POST feitas à rota /api/escolas
+app.post("/api/escolas", async (req: Request, res: Response) => {
   let dados: Escola[] = await getEscolas();
   res.json(dados);
 });

@@ -5,7 +5,6 @@ import { Escola } from "../interfaces";
 import { formatar } from "../functions";
 import { MobileNav } from "../components/MobileNav";
 import { useLoaderData } from "react-router-dom";
-import { Loader } from "../components/Loader";
 
 export default function Landing() {
   const escolas: Escola[] = useLoaderData() as Escola[];
