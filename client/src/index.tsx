@@ -13,7 +13,7 @@ import { Escola } from "./interfaces";
 
 
 const carregarEscolas = async () => {  
-    return await fetch("/api/escolas")
+    return await fetch("/api/escolas", {method: "POST"})
         .then(async (res: Response) => {
           const data: Escola[] = await res.json();
           return data;
