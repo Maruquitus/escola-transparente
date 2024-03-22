@@ -111,7 +111,7 @@ async function getEscolas(retries: number = 3): Promise<Escola[]> {
 
 
 // Lidar com as solicitações POST feitas à rota /api/escolas
-app.get("/api/escolas", async (req: Request, res: Response) => {
+app.post("/api/escolas", async (req: Request, res: Response) => {
   let dados: Escola[] = await getEscolas();
   res.json(dados);
 });
