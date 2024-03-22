@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "start-react": "cd client && npm start",
-    "serve-react": "ws --port 3000 --directory client/build --spa index.html --rewrite \"/api/(.*) -> http://127.0.0.1:3001/api/$1\" \"https://escola-transparente.onrender.com/api/(.*) -> http://127.0.0.1:3001/api/$1\"",
+    "serve-react": "ws --port 3000 --directory client/build --spa index.html --rewrite \"/api/escolas -> http://127.0.0.1:3001/api/escolas\" \"https://escola-transparente.onrender.com/api/(.*) -> http://127.0.0.1:3001/api/$1\"",
     "build": "cd client && npm run build",
     "tailwind": "cd client && npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "start-production": "concurrently \"npm run start\" \"npm run serve-react\"",
