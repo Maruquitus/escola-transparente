@@ -6,6 +6,8 @@ interface RouteTitles {
 export const routeTitles: RouteTitles = {
     '/': 'Landing',
     '/login': 'Login',
-    '/signup': 'Cadastro',
-    '/search': 'Pesquisa',
+    '/cadastro': 'Cadastro',
+    '/pesquisa': 'Pesquisa',
+    '/escola': 'Escola',
+    '/home': 'Home',
 }

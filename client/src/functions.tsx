@@ -4,7 +4,27 @@ export const getAPIStatus =  async() => {
     const res = await fetch('http://localhost:3001/api');
     return res.status;
 }
-export const formatarNome = (nomeEscola: String) => {
+
+export function formatarNumeroTelefone(numeroTelefone: string) {
+  if (numeroTelefone === null || numeroTelefone === undefined || numeroTelefone === '') {
+    return '';
+  }
+
+  const limpo = numeroTelefone.replace(/\D/g, '');
+
+  if (limpo === '') {
+    return '';
+  }
+
+  return limpo.replace(/(\d{5})(\d{4})/, '$1-$2');
+}
+
+
+export const formatarNome = (nome: String) => {
+  console.log(nome);
+  if (nome === null || nome == undefined) {
+    return '';
+  }
     let siglas: String[] = [
       "EEMTI",
       "EEEP",
@@ -15,7 +35,7 @@ export const formatarNome = (nomeEscola: String) => {
       "ARA",
       "EEBM",
     ];
-    let palavras = nomeEscola.split(" ").map((palavra) => {
+    let palavras = nome.split(" ").map((palavra) => {
       if (siglas.includes(palavra)) {
         return palavra;
       } else {

@@ -5,12 +5,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Landing from "./pages/Landing";
 import Erro404 from "./pages/404";
-import Error from "./pages/Error";
-import Search from "./pages/Search";
-import SignUp from "./pages/SignUp";
+import Erro from "./pages/Erro";
+import Pesquisa from "./pages/Pesquisa";
+import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
+import PáginaEscola from "./pages/Escola";
 import { Escola } from "./interfaces";
+import { Loader } from "./components/Loader";
+import Home from "./pages/Home";
 
+const checarAutenticação = async () => {
+  return await fetch("/api/checkAutenticado", { method: "POST" }).then(
+    async (res: Response) => {
+      return await res.json();
+    }
+  );
+}
 
 const carregarEscolas = async () => {  
     return await fetch("/api/escolas", {method: "POST"})
@@ -27,38 +37,54 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Landing />,
-    errorElement: <Error />,
+    errorElement: <Erro />,
     loader: carregarEscolas,
     },
   {
-    path: "/search",
-    element: <Search />,
-    errorElement: <Error />,
+    path: "/pesquisa",
+    element: <Pesquisa />,
+    errorElement: <Erro />,
     loader: carregarEscolas,
   },
   {
     path: "/login",
     element: <Login />,
-    errorElement: <Error />,
+    errorElement: <Erro />,
+    loader: checarAutenticação,
   },
   {
-    path: "/signup",
-    element: <SignUp />,
-    errorElement: <Error />,
+    path: "/cadastro",
+    element: <Cadastro />,
+    errorElement: <Erro />,
+    loader: checarAutenticação,
+  },
+  {
+    path: "/escola",
+    element: <PáginaEscola />,
+    errorElement: <Erro />,
+    loader: checarAutenticação,
+  },
+  {
+    path: "/home",
+    element: <Home />,
+    errorElement: <Erro />,
+    loader: checarAutenticação,
   },
   {
     path: "*",
     element: <Erro404 />,
-    errorElement: <Error />,
+    errorElement: <Erro />,
+    loader: checarAutenticação,
   },
 ]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider fallbackElement={<Loader/>} router={router} />
   </React.StrictMode>
 );
 

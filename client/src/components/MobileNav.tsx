@@ -19,9 +19,9 @@ export const MobileNav: FC = (props) => {
       </div>
       <div
         onClick={() =>
-          navigate("/signup")
+          navigate("/cadastro")
         }
-        className={`w-1/3 flex h-full ${pathname === '/signup' ? 'bg-[#488cf9]' : 'bg-blue-500'} border-l border-blue-600`}
+        className={`w-1/3 flex h-full ${pathname === '/cadastro' ? 'bg-[#488cf9]' : 'bg-blue-500'} border-l border-blue-600`}
       >
         <h2 className="my-auto w-full text-white font-sans font-semibold text-center text-sm">
           <i className="fa-solid fa-user-plus mx-auto text-center mr-1 " />{" "}
@@ -30,9 +30,9 @@ export const MobileNav: FC = (props) => {
       </div>
       <div
         onClick={() =>
-          navigate("/search")
+          navigate("/pesquisa")
         }
-        className={`w-1/3 flex h-full ${pathname === '/search' ? 'bg-[#488cf9]' : 'bg-blue-500'} border-l border-blue-600`}
+        className={`w-1/3 flex h-full ${pathname === '/pesquisa' ? 'bg-[#488cf9]' : 'bg-blue-500'} border-l border-blue-600`}
       >
         <h2 className="my-auto w-full text-white font-sans font-semibold text-center text-sm">
           <i className="fa-solid fa-search mx-auto text-center mr-1 " />{" "}
