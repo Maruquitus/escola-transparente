@@ -41,7 +41,7 @@ export default function Pesquisa() {
               className="mx-auto aspect-[1] sm:block hidden mt-10 relative w-20"
             />
           )}
-          <img alt='' onLoad={() => {setImagemCarregada(true)}} style={{ opacity: imagemCarregada ? '1' : '0', position: imagemCarregada ? 'relative' : 'absolute'}} className="w-9/12 mt-12 mx-auto" src={SVG} />
+          <img alt='' onLoad={() => {setImagemCarregada(true)}} style={{ opacity: imagemCarregada ? '1' : '0', position: imagemCarregada ? 'relative' : 'absolute'}} className="w-9/12 mt-12 mx-auto duration-300 transition-opacity" src={SVG} />
         </main> 
       </div>
       <MobileNav/>
