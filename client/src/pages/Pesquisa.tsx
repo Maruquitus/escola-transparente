@@ -1,7 +1,7 @@
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { Header } from "../components/Header";
-import { Escola } from "../interfaces";
-import { formatar } from "../functions";
+import { Escola, Item } from "../interfaces";
+import { procurarEscola, converterEscolas } from "../functions";
 import Erro404 from "./404";
 import SVG from "../assets/pesquisa.svg";
 import { MobileNav } from "../components/MobileNav";
@@ -10,10 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
+
 export default function Pesquisa() {
   const escolas: Escola[] = useLoaderData() as Escola[];
   const [imagemCarregada, setImagemCarregada] = useState(false);
   const navigate = useNavigate();
+  if (!escolas) return (<div></div>);
+  const items = converterEscolas(escolas);
   return (
     <div className="w-full h-full flex-col flex text-center">
       <div className="md:block hidden">
@@ -22,17 +25,24 @@ export default function Pesquisa() {
       <div className="md:hidden block">
         <Header/>
         <main>
-          <ReactSearchAutocomplete
-            styling={{ fontFamily: "Poppins", zIndex: 50 }}
-            placeholder="Procure uma escola..."
-            showNoResultsText={(escolas && escolas.length > 0) ? "Escola não encontrada." : "Carregando..."}
-            className="self-center mt-5 w-11/12 md:mt-0 bottom-0.5 mx-auto"
-            items={escolas}
-            fuseOptions={{ keys: ["nome"] }}
-            onSelect={(result) => {navigate('/escola', {state: {escola: result}})}}
-            onSearch={() => {}}
-            formatResult={formatar}
-          />
+        <ReactSearchAutocomplete
+                styling={{ fontFamily: "Poppins", zIndex: 50 }}
+                placeholder="Procure uma escola..."
+                showNoResultsText={
+                  items.length > 0 ? "Escola não encontrada." : "Carregando..."
+                }
+                className="self-center mt-10 w-full md:w-4/5 md:mt-0 bottom-0.5 mx-auto"
+                items={items}
+                fuseOptions={{ keys: ["name"] }}
+                onSelect={(item: Item) => {
+                  navigate("/escola", {
+                    state: { escola: procurarEscola(item.name, escolas) },
+                  });
+                }}
+                formatResult={(item: Item) => {
+                  return <h2>{item.name}</h2>;
+                }}
+              />
             {!imagemCarregada && (
             <Skeleton
               width={"80%"}

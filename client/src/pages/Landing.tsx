@@ -1,34 +1,19 @@
 import { Header } from "../components/Header";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import { Escola } from "../interfaces";
-import { formatarNome } from "../functions";
+import { Escola, Item } from "../interfaces";
+import { procurarEscola, converterEscolas } from "../functions";
 import { MobileNav } from "../components/MobileNav";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-
-type Item = { id: number; name: string; };
-
-const converterEscolas = (escolas: Escola[]): Item[] => {
-  return escolas.map(({inep_id, nome}) => ({id: inep_id, name: formatarNome(nome)}))
-}
-
-const procurarEscola = (nome: string, escolas: Escola[]) => {
-  for (const escola of escolas) {
-    if (nome === formatarNome(escola.nome)) {
-      return escola;
-    }
-  }
-  return null;
-}
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Landing() {
   const escolas: Escola[] | undefined = useLoaderData() as Escola[];
   const [imagemCarregada, setImagemCarregada] = useState(false);
   const navigate = useNavigate();
 
-  if (!escolas) return (<div></div>);
+  if (!escolas) return <div></div>;
   const items = converterEscolas(escolas);
 
   return (
@@ -41,13 +26,21 @@ export default function Landing() {
               <ReactSearchAutocomplete
                 styling={{ fontFamily: "Poppins" }}
                 placeholder="Procure uma escola..."
-                showNoResultsText={items.length > 0 ? "Escola não encontrada." : "Carregando..."}
+                showNoResultsText={
+                  items.length > 0 ? "Escola não encontrada." : "Carregando..."
+                }
                 className="self-center mt-10 w-full md:w-4/5 md:mt-0 bottom-0.5 mx-auto"
                 items={items}
                 fuseOptions={{ keys: ["name"] }}
-                onSelect={(item: Item) => {navigate('/escola', {state: {escola: procurarEscola(item.name, escolas)}})}}
-                formatResult={(item: Item) => {return (<h2>{item.name}</h2>)}}
-  />
+                onSelect={(item: Item) => {
+                  navigate("/escola", {
+                    state: { escola: procurarEscola(item.name, escolas) },
+                  });
+                }}
+                formatResult={(item: Item) => {
+                  return <h2>{item.name}</h2>;
+                }}
+              />
             </div>
           </div>
         </div>
@@ -73,21 +66,29 @@ export default function Landing() {
             </button>
           </div>
           <div className="w-full h-full md:1/4 py-9 select-none text-center">
-            {!imagemCarregada && <Skeleton width={'90%'} borderRadius={20} className="mx-auto mt-10 aspect-[1.8] relative w-32"/>}
+            {!imagemCarregada && (
+              <Skeleton
+                width={"90%"}
+                borderRadius={20}
+                className="mx-auto mt-10 aspect-[1.8] relative w-32"
+              />
+            )}
             <img
               alt="Estudantes"
               className="z-0 select-none transition-opacity duration-300"
               src="imagem.jpg"
-              style={{ opacity: imagemCarregada ? '1' : '0' }}
-              onLoad={() => {setImagemCarregada(true)}}
+              style={{ opacity: imagemCarregada ? "1" : "0" }}
+              onLoad={() => {
+                setImagemCarregada(true);
+              }}
             />
           </div>
         </div>
         <div></div>
       </main>
       {/* Painel mobile */}
-      <MobileNav/>
-      
+      <MobileNav />
+
       <footer className="bottom-1 text-center invisible w-full">
         <a
           className="text-center w-full text-gray-500 font-medium font-sans"

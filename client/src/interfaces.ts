@@ -1,3 +1,4 @@
+export type Item = { id: number; name: string; };
 export interface Escola {
     inep_id: number;
     cidade_id: number| null;

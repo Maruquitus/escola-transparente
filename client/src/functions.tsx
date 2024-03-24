@@ -1,4 +1,4 @@
-import { Escola } from "./interfaces";
+import { Escola, Item } from "./interfaces";
 
 export const getAPIStatus =  async() => {
     const res = await fetch('http://localhost:3001/api');
@@ -19,6 +19,18 @@ export function formatarNumeroTelefone(numeroTelefone: string) {
   return limpo.replace(/(\d{5})(\d{4})/, '$1-$2');
 }
 
+export const converterEscolas = (escolas: Escola[]): Item[] => {
+  return escolas.map(({inep_id, nome}) => ({id: inep_id, name: formatarNome(nome)}))
+}
+
+export const procurarEscola = (nome: string, escolas: Escola[]) => {
+  for (const escola of escolas) {
+    if (nome === formatarNome(escola.nome)) {
+      return escola;
+    }
+  }
+  return null;
+}
 
 export const formatarNome = (nome: String) => {
   console.log(nome);

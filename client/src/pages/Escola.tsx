@@ -1,8 +1,10 @@
 import { Header } from "../components/Header";
 import { useLocation, useNavigate } from "react-router-dom";
 import { formatarNome, formatarNumeroTelefone } from "../functions";
+import { useState } from "react";
 
 export default function PáginaEscola() {
+  const [imagemCarregada, setImagemCarregada] = useState(false);
   const {state} = useLocation();
   const navigate = useNavigate();
   if (state === null) {
@@ -18,7 +20,7 @@ export default function PáginaEscola() {
       <Header/>
       <main className="block h-full w-full">
       <div className="bg-gray-200 rounded-2xl py-16 mx-auto w-10/12 h-80 mt-4">
-          <img className="mx-auto sm:scale-100 scale-75" src='escola.png'/>
+          <img onLoad={() => {setImagemCarregada(true)}} className={"mx-auto sm:scale-100 scale-75 transition-opacity duration-300 " + (imagemCarregada ? "opacity-1" : "opacity-0")} src='escola.png'/>
       </div>
       <h1 className="text-left w-4/5 mx-auto font-sans font-semibold text-2xl mt-3">{formatarNome(escola.nome)}</h1>
       <h2 className="text-left w-4/5 mx-auto font-sans font-medium text-xl">{formatarNome(escola.endereco)}</h2>
