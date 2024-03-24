@@ -86,7 +86,7 @@ export default function Cadastro() {
                 </button>
               </div>
             </form>
-            <span className="text-red-500 text-center font-sans font-semibold">{erro}</span>
+            <span className="text-red-500 text-center font-sans font-medium">{erro}</span>
           </div>
         </div>
         {!imagemCarregada && (
