@@ -29,7 +29,7 @@ export default function Landing() {
                 showNoResultsText={
                   items.length > 0 ? "Escola não encontrada." : "Carregando..."
                 }
-                className="self-center mt-10 w-full md:mt-0 bottom-0.5 mx-auto"
+                className="self-center pointer-events-auto mt-10 w-full md:mt-0 bottom-0.5 mx-auto"
                 items={items}
                 fuseOptions={{ keys: ["name"] }}
                 onSelect={(item: Item) => {
