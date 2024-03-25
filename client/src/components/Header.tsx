@@ -26,12 +26,13 @@ export const Header: FC<{
       }
     >
       <Link
+        reloadDocument={pathname !== "/"}
         to="/"
         className={`text-slate-900 flex ${
           pathname !== "/"
             ? "cursor-pointer hover:scale-105 duration-150"
             : "cursor-default"
-        } whitespace-nowrap mt-1 font-semibold font-sans text-xl sm:text-2xl mb-1 md:float-start`}
+        } whitespace-nowrap mt-1 w-3/5 md:w-fit font-semibold font-sans text-xl xl:text-2xl mb-1`}
       >
         <img
           src="/logo192.png"
@@ -39,7 +40,7 @@ export const Header: FC<{
           alt="logo"
         />
         Escola{" "}
-        <span className="font-bold text-xl sm:text-2xl text-white ml-2">
+        <span className="font-bold text-xl xl:text-2xl text-white ml-2">
           Transparente
         </span>
       </Link>
@@ -51,7 +52,10 @@ export const Header: FC<{
           <h2
             onClick={async () => {
               fetch("/api/sair", { method: "POST" }).then(async (res: Response) => {
-                if (res.status == 200) navigate('/')
+                if (res.status == 200) {
+                  window.location.reload();
+                  navigate('/'); 
+                }
               });
             }}
             className="text-white hover:scale-105 duration-300 cursor-pointer font-semibold text-lg mt-1.5"
@@ -67,22 +71,25 @@ export const Header: FC<{
             !props.children && "-mr-1"
           } w-60 space-x-3 h-8 hidden md:flex`}
         >
-          <button
-            onClick={() => navigate("/login")}
-            className={`h-10 w-28 md:visible invisible ${
+          <Link
+          reloadDocument={true}
+          to="/login"
+            onClick={() => {window.location.reload(); navigate("/login")}}
+            className={`h-10 w-28 lg:visible invisible ${
               pathname === "/login" && "bg-[#488cf9]"
-            } border-white border hover:bg-[#488cf9] duration-300 text-white font-sans font-semibold rounded-xl`}
+            } border-white border hover:bg-[#488cf9] duration-300 text-center text-white font-sans font-semibold rounded-xl`}
           >
-            Entrar
-          </button>
-          <button
-            onClick={() => navigate("/cadastro")}
-            className={`h-10 w-28 md:visible invisible ${
+            <span className="mt-[0.45rem] block">Entrar</span>
+          </Link>
+          <Link
+          reloadDocument={true}
+          to="/cadastro"
+            className={`h-10 w-28 lg:visible invisible ${
               pathname === "/cadastro" ? "bg-white" : "bg-slate-100"
-            } font-sans hover:bg-white duration-300 font-semibold rounded-xl text-slate-700`}
+            } font-sans hover:bg-white duration-300 text-center font-semibold rounded-xl text-slate-700`}
           >
-            Cadastrar
-          </button>
+            <span className="mt-[0.45rem] block">Cadastrar</span>
+          </Link>
         </div>
       )}
     </header>

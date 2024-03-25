@@ -20,16 +20,16 @@ export default function Landing() {
     <div className="w-full h-full flex-col flex">
       <Header>
         {/* Pesquisa desktop */}
-        <div className="place-content-around w-4/5 flex h-10 invisible md:visible">
-          <div className="w-full">
-            <div className="items-center md:visible">
+        <div className="place-content-around left-0 pointer-events-none absolute w-full flex h-10 invisible md:visible">
+          <div className="lg:w-4/12 xl:w-2/5 mx-auto">
+            <div className="items-center invisible lg:visible">
               <ReactSearchAutocomplete
                 styling={{ fontFamily: "Poppins" }}
                 placeholder="Procure uma escola..."
                 showNoResultsText={
                   items.length > 0 ? "Escola não encontrada." : "Carregando..."
                 }
-                className="self-center mt-10 w-full md:w-4/5 md:mt-0 bottom-0.5 mx-auto"
+                className="self-center mt-10 w-full md:mt-0 bottom-0.5 mx-auto"
                 items={items}
                 fuseOptions={{ keys: ["name"] }}
                 onSelect={(item: Item) => {

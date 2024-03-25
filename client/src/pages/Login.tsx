@@ -29,7 +29,7 @@ export default function Login() {
       <Header/>
       <main className="flex text-center">
         <div className="w-full sm:w-2/5 my-auto text-left">
-          <div className="self-center p-4 grid mx-auto mt-20 sm:ml-8">
+          <div className="self-center p-4 grid mx-auto mt-32 sm:mt-20 sm:ml-8">
             <h1 className="text-slate-900 font-sans font-bold text-2xl text-center">
               Olá! Entre na sua conta.
             </h1>
