@@ -1,9 +1,8 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FC } from "react";
 
-export const MobileNav: FC = (props) => {
+export const MobileNav: FC = () => {
   const pathname = useLocation().pathname;
-  const navigate = useNavigate();
   return (
     <div className="lg:hidden select-none flex h-14 w-full bg-blue-500 fixed bottom-0 left-0 z-50 shadow-md shadow-gray-400">
       <Link

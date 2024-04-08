@@ -51,12 +51,14 @@ export const Header: FC<{
         >
           <h2
             onClick={async () => {
-              fetch("/api/sair", { method: "POST" }).then(async (res: Response) => {
-                if (res.status == 200) {
-                  window.location.reload();
-                  navigate('/'); 
+              fetch("/api/sair", { method: "POST" }).then(
+                async (res: Response) => {
+                  if (res.status === 200) {
+                    window.location.reload();
+                    navigate("/");
+                  }
                 }
-              });
+              );
             }}
             className="text-white hover:scale-105 duration-300 cursor-pointer font-semibold text-lg mt-1.5"
           >
@@ -72,23 +74,26 @@ export const Header: FC<{
           } w-60 space-x-3 h-8 hidden md:flex`}
         >
           <Link
-          reloadDocument={true}
-          to="/login"
-            onClick={() => {window.location.reload(); navigate("/login")}}
+            reloadDocument={true}
+            to="/login"
+            onClick={() => {
+              window.location.reload();
+              navigate("/login");
+            }}
             className={`h-10 w-28 lg:visible invisible ${
               pathname === "/login" && "bg-[#488cf9]"
-            } border-white border hover:bg-[#488cf9] duration-300 text-center text-white font-sans font-semibold rounded-xl`}
+            } border-white border hover:bg-[#488cf9] duration-300 text-center text-white font-sans font-semibold rounded-xl flex items-center justify-center`}
           >
-            <span className="mt-[0.45rem] block">Entrar</span>
+            <span>Entrar</span>
           </Link>
           <Link
-          reloadDocument={true}
-          to="/cadastro"
+            reloadDocument={true}
+            to="/cadastro"
             className={`h-10 w-28 lg:visible invisible ${
               pathname === "/cadastro" ? "bg-white" : "bg-slate-100"
-            } font-sans hover:bg-white duration-300 text-center font-semibold rounded-xl text-slate-700`}
+            } font-sans hover:bg-white duration-300 text-center font-semibold rounded-xl text-slate-700 flex items-center justify-center`}
           >
-            <span className="mt-[0.45rem] block">Cadastrar</span>
+            <span>Cadastrar</span>
           </Link>
         </div>
       )}

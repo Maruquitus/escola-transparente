@@ -24,7 +24,7 @@ export default function Pesquisa() {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [navigate]);
   if (!escolas) return (<div></div>);
   const items = converterEscolas(escolas);
 

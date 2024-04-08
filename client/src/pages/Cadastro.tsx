@@ -31,62 +31,69 @@ export default function Cadastro() {
       <main className="flex text-center">
         <div className="w-full sm:w-2/5 my-auto text-left">
           <div className="self-center p-4 grid mx-auto mt-20 sm:ml-8">
-            <h1 className="text-slate-900 font-sans font-bold text-2xl text-center">
+            <h1 className="text-slate-900 font-sans font-bold text-3xl text-center">
               Seja bem vindo! Insira suas informações.
             </h1>
             <form className="space-y-3" method="POST" action="/api/novoUsuario">
               <div className="w-full row grid">
-                <label className="text-gray-500 font-sans font-medium">
+                <label className="text-gray-500 text-lg font-sans font-medium">
                   Usuário
                 </label>
                 <input
                   required
                   name="username"
                   id="usuário"
-                  className="text-black font-sans h-8 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
+                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
                   type="text"
                 />
               </div>
               <div className="w-full row grid">
-                <label className="text-gray-500 font-sans font-medium">
+                <label className="text-gray-500 text-lg font-sans font-medium">
                   Senha
                 </label>
                 <input
                   required
                   name="password"
                   id="senha"
-                  className="text-black font-sans h-8 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
+                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
                   type={senhaVisível ? "text" : "password"}
                 />
               </div>
               <div className="w-full row grid">
-                <label className="text-gray-500 font-sans font-medium">
+                <label className="text-gray-500 text-lg font-sans font-medium">
                   Confirme sua senha
                 </label>
                 <input
                   required
-                  name='confirmPassword'
+                  name="confirmPassword"
                   id="senha"
-                  className="text-black font-sans h-8 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
+                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
                   type={senhaVisível ? "text" : "password"}
                 />
               </div>
               <div className="flex-row">
-                <input onClick={() => {setSenhaVisível(!senhaVisível)}} type="checkbox" />
-                <label className="text-gray-500 font-sans font-medium ml-1">
+                <input
+                  onClick={() => {
+                    setSenhaVisível(!senhaVisível);
+                  }}
+                  type="checkbox"
+                />
+                <label className="text-gray-500 text-lg font-sans font-medium ml-1">
                   Mostrar senha
                 </label>
               </div>
               <div className="flex justify-center">
                 <button
                   id="botão"
-                  className="bg-blue-500 text-white font-sans w-48 h-8 self-center mx-auto rounded-xl font-bold hover:scale-105 hover:bg-[#488cf9] ease-in-out duration-300"
+                  className="bg-blue-500 text-lg text-white font-sans w-48 h-9 self-center mx-auto rounded-xl font-bold hover:scale-105 hover:bg-[#488cf9] ease-in-out duration-300"
                 >
                   Registrar
                 </button>
               </div>
             </form>
-            <span className="text-red-500 text-center font-sans font-medium">{erro}</span>
+            <span className="text-red-500 text-center font-sans font-medium">
+              {erro}
+            </span>
           </div>
         </div>
         {!imagemCarregada && (
@@ -99,10 +106,15 @@ export default function Cadastro() {
         )}
         <img
           alt=""
-          style={{ opacity: imagemCarregada ? '1' : '0', position: imagemCarregada ? 'relative' : 'absolute'}} 
+          style={{
+            opacity: imagemCarregada ? "1" : "0",
+            position: imagemCarregada ? "relative" : "absolute",
+          }}
           className="w-4/12 sm:block hidden mx-auto mt-16 transition-opacity duration-300"
           src={SVG}
-          onLoad={() => {setImagemCarregada(true)}}
+          onLoad={() => {
+            setImagemCarregada(true);
+          }}
         />
       </main>
       <MobileNav />

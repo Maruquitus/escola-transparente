@@ -7,9 +7,11 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ModalReclamação } from "../components/ModalReclamação";
 
 export default function Landing() {
   const escolas: Escola[] | undefined = useLoaderData() as Escola[];
+  const [modalAberto, setModalAberto] = useState(false);
   const [imagemCarregada, setImagemCarregada] = useState(false);
   const navigate = useNavigate();
 
@@ -45,7 +47,6 @@ export default function Landing() {
           </div>
         </div>
       </Header>
-
       <main className="block h-full w-full ">
         {/* Parte inicial */}
         <div className="md:flex block w-full">
@@ -61,7 +62,10 @@ export default function Landing() {
               Insatisfeito com a infraestrutura de sua escola? Reclame agora
               mesmo!
             </h2>
-            <button className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white">
+            <button
+              onClick={() => setModalAberto(true)}
+              className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white"
+            >
               Nova reclamação
             </button>
           </div>
@@ -84,10 +88,11 @@ export default function Landing() {
             />
           </div>
         </div>
-        <div></div>
       </main>
       {/* Painel mobile */}
       <MobileNav />
+      {/* Modal */}
+      <ModalReclamação setModalAberto={setModalAberto} modalAberto={modalAberto} items={items} />
 
       <footer className="bottom-1 text-center invisible w-full">
         <a

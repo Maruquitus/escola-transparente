@@ -4,6 +4,7 @@ import { Escola } from "./client/src/interfaces";
 import axios from "axios";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
+import { verify } from "crypto";
 
 /*===========IMPORTS===========*/
 const express = require("express");
@@ -80,7 +81,7 @@ async function getEscola(codigo_inep: string, nome: string): Promise<Escola> {
 }
 
 async function getEscolas(tentativas: number = 3): Promise<Escola[]> {
-  const url = "https://api.qedu.org.br/v1/escolas/";
+  const url = "http://api.qedu.org.br/v1/escolas/";
   const headers = {
     Authorization: `Bearer ${api}`,
     "Content-Type": "application/json",
@@ -191,12 +192,20 @@ app.post("/api/escolas", async (req: Request, res: Response) => {
   res.json(dados);
 });
 
+//Nova reclamação
+app.post("/api/novaReclamacao", async (req: Request, res: Response) => {
+  res.redirect("/");
+});
+
 // Novo usuário
 app.post("/api/novoUsuario", async (req: Request, res: Response) => {
   let resultado;
-  if (req.body.confirmPassword !== req.body.password) resultado = Error("Confirmação de senha incorreta. Tente novamente.");
-  if (!resultado && req.body.password.length < 8) resultado = Error("Senha muito curta! Mínimo de 8 caracteres.");
-  if (!resultado) resultado = await novoUsuário(req.body.username, req.body.password);
+  if (req.body.confirmPassword !== req.body.password)
+    resultado = Error("Confirmação de senha incorreta. Tente novamente.");
+  if (!resultado && req.body.password.length < 8)
+    resultado = Error("Senha muito curta! Mínimo de 8 caracteres.");
+  if (!resultado)
+    resultado = await novoUsuário(req.body.username, req.body.password);
   if (resultado instanceof Error) {
     res.redirect(`/cadastro?erro=${resultado.message}`);
   } else {
