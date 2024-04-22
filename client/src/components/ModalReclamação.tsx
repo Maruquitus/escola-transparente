@@ -1,10 +1,11 @@
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import { useState, FC } from "react";
+import { FC } from "react";
 import { Item } from "../interfaces";
 
 export const ModalReclamação: FC<{
   items: Item[];
   modalAberto: boolean;
+  erro: string | undefined | null;
   setModalAberto: Function;
 }> = (props) => {
   const [modalAberto, setModalAberto] = [
@@ -12,6 +13,7 @@ export const ModalReclamação: FC<{
     props.setModalAberto,
   ];
   const items = props.items;
+  items.sort((a, b) => a.name.localeCompare(b.name));
   return (
     <div
       onClick={(event) => {
@@ -30,6 +32,7 @@ export const ModalReclamação: FC<{
         method="POST"
         action="/api/novaReclamacao"
         id="modal"
+        encType="multipart/form-data"
         className="w-full sm:w-2/3 lg:w-1/2 rounded-lg p-10 bg-white shadow-gray-300 shadow-lg mx-auto"
       >
         <i
@@ -42,37 +45,26 @@ export const ModalReclamação: FC<{
         <label className="text-gray-500 text-xl font-sans font-medium">
           Escola
         </label>
-        <ReactSearchAutocomplete
-          styling={{
-            fontFamily: "Poppins",
-            borderRadius: "6px",
-            boxShadow: "",
-            border: "",
-            backgroundColor: "rgb(241 245 249)",
-          }}
-          placeholder="Procure uma escola..."
-          showNoResultsText={
-            items.length > 0 ? "Escola não encontrada." : "Carregando..."
-          }
-          className="self-center pointer-events-auto w-full bottom-0.5 mx-auto"
-          items={items}
-          onSelect={(i) => {
-            const escola = document.getElementById(
-              "escola"
-            ) as HTMLInputElement;
-            if (escola) escola.value = i.name;
-          }}
-          fuseOptions={{ keys: ["name"] }}
-          formatResult={(item: Item) => {
-            return <h2>{item.name}</h2>;
-          }}
-        />
-        <input required id="escola" name="escola" className="hidden" />
+        <select
+          defaultValue={"Escolha uma escola"}
+          className="w-full py-2 px-4 outline-none border-0 bg-slate-100 rounded-md font-sans"
+          name="escola"
+          form="modal"
+        >
+          <option selected value="">
+            Escolha uma escola
+          </option>
+          {items.map((item) => {
+            if (item.id) return <option value={item.name}> {item.name}</option>;
+          })}
+        </select>
         <label className="text-gray-500 text-xl font-sans font-medium">
           Descreva sua reclamação
         </label>
+
         <textarea
           name="texto"
+          form="modal"
           required
           className="text-black resize-none w-full font-sans h-28 bg-slate-100 shadow-sm rounded-md outline-0 font-normal p-1"
         />
@@ -80,7 +72,7 @@ export const ModalReclamação: FC<{
           Fotografia
         </label>
         <input
-          name="imagens"
+          name="fotos"
           onChange={(event) => {
             const files = event.target.files;
             const label = document.getElementById("fileLabel");
@@ -118,6 +110,9 @@ export const ModalReclamação: FC<{
             Enviar
           </button>
         </div>
+        <span className="text-red-500 w-full block text-center font-sans font-medium">
+          {props.erro}
+        </span>
       </form>
     </div>
   );

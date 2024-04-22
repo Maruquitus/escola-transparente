@@ -4,16 +4,27 @@ import { Escola, Item } from "../interfaces";
 import { procurarEscola, converterEscolas } from "../functions";
 import { MobileNav } from "../components/MobileNav";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ModalReclamação } from "../components/ModalReclamação";
+import { useLocation } from "react-router-dom";
 
 export default function Landing() {
   const escolas: Escola[] | undefined = useLoaderData() as Escola[];
   const [modalAberto, setModalAberto] = useState(false);
   const [imagemCarregada, setImagemCarregada] = useState(false);
   const navigate = useNavigate();
+  const [erro, setErro] = useState<null | string>();
+  const location = useLocation();
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    setErro(searchParams.get("erro"));
+    if (searchParams.get("sucesso") === "true") {
+      alert("Reclamação feita com sucesso!");
+    }
+    if (searchParams.get("erro") !== null) setModalAberto(true);
+  }, [location.search]);
 
   if (!escolas) return <div></div>;
   const items = converterEscolas(escolas);
@@ -92,7 +103,12 @@ export default function Landing() {
       {/* Painel mobile */}
       <MobileNav />
       {/* Modal */}
-      <ModalReclamação setModalAberto={setModalAberto} modalAberto={modalAberto} items={items} />
+      <ModalReclamação
+        setModalAberto={setModalAberto}
+        modalAberto={modalAberto}
+        items={items}
+        erro={erro}
+      />
 
       <footer className="bottom-1 text-center invisible w-full">
         <a

@@ -9,7 +9,7 @@
     "build": "cd client && npm run build",
     "tailwind": "cd client && npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "start-production": "npm run start",
-    "start-dev": "concurrently \"npm run start\" \"npm run start-react\" \"npm run tailwind\""
+    "start-dev": "concurrently \"npm run start\" \"npm run start-react\""
   },
   "keywords": [],
   "author": "Marcos Sousa",
@@ -24,7 +24,9 @@
     "express-session": "^1.18.0",
     "jest": "^29.7.0",
     "local-web-server": "^5.3.1",
-    "mongodb": "^6.4.0",
+    "mongodb": "^5.9.1",
+    "multer": "^1.4.5-lts.1",
+    "multer-gridfs-storage": "^5.0.2",
     "nodemon": "^3.0.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"

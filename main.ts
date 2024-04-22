@@ -1,10 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import { contarDocs, novoUsuário, getUsuário, autenticarUsuário } from "./db";
+import {
+  novoUsuário,
+  autenticarUsuário,
+  novaReclamação,
+  limparReclamações,
+  limparImagens,
+} from "./db";
+import { download, uploadFiles, getListFiles } from "./upload";
 import { Escola } from "./client/src/interfaces";
 import axios from "axios";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
-import { verify } from "crypto";
+import multer from "multer";
 
 /*===========IMPORTS===========*/
 const express = require("express");
@@ -186,16 +193,81 @@ app.post(
   }
 );
 
+// Upload e download de arquivos
+app.post("/upload", uploadFiles);
+app.get("/arquivos/:name", download);
+
+// Endpoints de debug
+if (process.env.IS_PRODUCTION == "false") {
+  app.get("/api/limparReclamacoes", async (req: Request, res: Response) => {
+    await limparReclamações();
+    res.status(200).send({ mensagem: "Reclamações limpas!" });
+  });
+  app.get("/api/limparImagens", async (req: Request, res: Response) => {
+    await limparImagens();
+    res.status(200).send({ mensagem: "Imagens limpas!" });
+  });
+  app.get("/arquivos", getListFiles);
+}
+
 // Lidar com as solicitações POST feitas à rota /api/escolas
 app.post("/api/escolas", async (req: Request, res: Response) => {
   let dados: Escola[] = await getEscolas();
   res.json(dados);
 });
 
-//Nova reclamação
-app.post("/api/novaReclamacao", async (req: Request, res: Response) => {
-  res.redirect("/");
-});
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.post(
+  "/api/novaReclamacao",
+  upload.array("fotos", 3),
+  async (req: Request, res: Response) => {
+    try {
+      const [escola, textoReclamacao] = [req.body.escola, req.body.texto];
+      let fotos: string[] = [];
+
+      if (Array.isArray(req.files) && req.files.length) {
+        // Processar cada arquivo enviado
+        for (const file of req.files) {
+          const formData = new FormData();
+          formData.append(
+            `file`,
+            new Blob([file.buffer], { type: file.mimetype })
+          );
+
+          // Enviar o arquivo para o servidor de upload
+          const response = await fetch("http://localhost:3001/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error((await response.json()).message);
+          }
+
+          fotos.push((await response.json()).filename);
+        }
+      }
+
+      if (escola && textoReclamacao) {
+        const resultado = await novaReclamação(escola, textoReclamacao, fotos);
+        if (resultado instanceof Error) {
+          return res.redirect(
+            "/?erro=Erro ao fazer a reclamação! Tente novamente."
+          );
+        }
+        return res.redirect("/?sucesso=true");
+      } else {
+        return res.redirect(
+          "/?erro=Preencha o formulário por completo e tente de novo."
+        );
+      }
+    } catch (error: any) {
+      return res.redirect(`/?erro=${error.message}`);
+    }
+  }
+);
 
 // Novo usuário
 app.post("/api/novoUsuario", async (req: Request, res: Response) => {
