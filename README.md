@@ -37,5 +37,5 @@ Deploy através do Render, disponível em [https://escola-transparente.onrender.
   <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/b41ea409-de89-44c1-8f5f-36301b776190" style="height: 250px">
 
 ### Reclamação
-  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/616fda70-be0b-4ea8-9985-edc739409765" style="height: 280px">
-  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/df79b530-811a-42cb-8097-6f99b52984e2" style="height: 280px">
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/616fda70-be0b-4ea8-9985-edc739409765" style="height: 250px">
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/df79b530-811a-42cb-8097-6f99b52984e2" style="height: 250px">
