@@ -61,16 +61,24 @@ function hashSenha(senha: string) {
   });
 }
 
-export async function novaReclamação(escola: string, textoReclamação: string, fotos: string[]) {
+export async function novaReclamação(
+  escola: string,
+  textoReclamação: string,
+  fotos: string[]
+) {
   await getDB();
-  let dados = { escola: escola, textoReclamação: textoReclamação, fotos: fotos};
+  let dados = {
+    escola: escola,
+    textoReclamação: textoReclamação,
+    fotos: fotos,
+  };
   await reclamações.insertOne(dados);
-  return {message: "Nova reclamação feita com sucesso!"}
+  return { message: "Nova reclamação feita com sucesso!" };
 }
 
 export async function limparReclamações() {
   await getDB();
-  await reclamações.deleteMany({})
+  await reclamações.deleteMany({});
 }
 
 export async function limparImagens() {
@@ -105,10 +113,19 @@ export async function autenticarUsuário(usuário: string, senha: string) {
   }
 }
 
+export async function mostrarReclamações() {
+  await getDB();
+  return await reclamações.find({}).toArray();
+}
+
 export async function novoUsuário(usuário: string, senha: string) {
   await getDB();
-  if (validarUsuário(usuário) == false) return Error("Nome de usuário inválido! Use apenas letras, números ou underscores.");
-  if (validarSenha(senha) == false) return Error("Sua senha não pode conter espaços!")
+  if (validarUsuário(usuário) == false)
+    return Error(
+      "Nome de usuário inválido! Use apenas letras, números ou underscores."
+    );
+  if (validarSenha(senha) == false)
+    return Error("Sua senha não pode conter espaços!");
   if ((await getUsuário(usuário)) == null) {
     //Gerar um hash com da senha escolhida
     const resultado = await hashSenha(senha);

@@ -6,15 +6,17 @@ const GridFSBucket = require("mongodb").GridFSBucket;
 
 const baseUrl = "http://localhost:3001/arquivos/";
 
-const uploadFiles = async (req: Request, res: Response) => {
+const uploadFiles = async (req: Request, res: any) => {
   const upload = await uploadMiddleware;
   try {
     if (!req.body) return res.send({ message: "Erro no formulário" });
 
-    const resultado = await upload(req, res);
+    await upload(req, res);
+
+    console.log(res.req.file);
 
     return res.status(200).send({
-      filename: "",
+      filename: res.req.file.filename,
       message: "O arquivo foi enviado.",
     });
   } catch (error) {

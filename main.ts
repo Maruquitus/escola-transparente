@@ -5,6 +5,7 @@ import {
   novaReclamação,
   limparReclamações,
   limparImagens,
+  mostrarReclamações,
 } from "./db";
 import { download, uploadFiles, getListFiles } from "./upload";
 import { Escola } from "./client/src/interfaces";
@@ -199,6 +200,15 @@ app.get("/arquivos/:name", download);
 
 // Endpoints de debug
 if (process.env.IS_PRODUCTION == "false") {
+  // Mostrar todas as reclamações
+  app.get("/api/reclamacoes", async (req: Request, res: Response) => {
+    const resultado = await mostrarReclamações();
+    if (resultado instanceof Error) {
+      res.status(500).send({ mensagem: "Erro ao carregar as reclamações!" });
+    } else {
+      res.status(200).json(resultado);
+    }
+  });
   app.get("/api/limparReclamacoes", async (req: Request, res: Response) => {
     await limparReclamações();
     res.status(200).send({ mensagem: "Reclamações limpas!" });
@@ -219,6 +229,7 @@ app.post("/api/escolas", async (req: Request, res: Response) => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+// Nova reclamação
 app.post(
   "/api/novaReclamacao",
   upload.array("fotos", 3),
@@ -245,8 +256,8 @@ app.post(
           if (!response.ok) {
             throw new Error((await response.json()).message);
           }
-
-          fotos.push((await response.json()).filename);
+          const res = await response.json();
+          fotos.push(res.filename);
         }
       }
 
