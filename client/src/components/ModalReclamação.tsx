@@ -1,4 +1,3 @@
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { FC } from "react";
 import { Item } from "../interfaces";
 
@@ -12,7 +11,9 @@ export const ModalReclamação: FC<{
     props.modalAberto,
     props.setModalAberto,
   ];
-  const items = props.items;
+  const items: { name: string; id: string }[] = JSON.parse(
+    JSON.stringify(props.items)
+  );
   items.sort((a, b) => a.name.localeCompare(b.name));
   return (
     <div
@@ -56,8 +57,18 @@ export const ModalReclamação: FC<{
           </option>
           {items.map((item) => {
             if (item.id) return <option value={item.name}> {item.name}</option>;
+            return <div></div>;
           })}
         </select>
+        <label className="text-gray-500 text-xl font-sans font-medium">
+          Título
+        </label>
+        <input
+          className="block py-2 px-4 bg-slate-100 text-black font-sans rounded-md border-0 outline-none w-full"
+          type="text"
+          required
+          name="titulo"
+        />
         <label className="text-gray-500 text-xl font-sans font-medium">
           Descreva sua reclamação
         </label>

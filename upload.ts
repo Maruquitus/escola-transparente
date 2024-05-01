@@ -13,8 +13,6 @@ const uploadFiles = async (req: Request, res: any) => {
 
     await upload(req, res);
 
-    console.log(res.req.file);
-
     return res.status(200).send({
       filename: res.req.file.filename,
       message: "O arquivo foi enviado.",

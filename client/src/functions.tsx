@@ -33,7 +33,6 @@ export const procurarEscola = (nome: string, escolas: Escola[]) => {
 }
 
 export const formatarNome = (nome: String) => {
-  console.log(nome);
   if (nome === null || nome === undefined) {
     return '';
   }

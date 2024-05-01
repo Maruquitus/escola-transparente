@@ -63,12 +63,14 @@ function hashSenha(senha: string) {
 
 export async function novaReclamação(
   escola: string,
+  título: string,
   textoReclamação: string,
   fotos: string[]
 ) {
   await getDB();
   let dados = {
     escola: escola,
+    título: título,
     textoReclamação: textoReclamação,
     fotos: fotos,
   };

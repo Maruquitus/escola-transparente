@@ -235,7 +235,11 @@ app.post(
   upload.array("fotos", 3),
   async (req: Request, res: Response) => {
     try {
-      const [escola, textoReclamacao] = [req.body.escola, req.body.texto];
+      const [escola, título, textoReclamacao] = [
+        req.body.escola,
+        req.body.titulo,
+        req.body.texto,
+      ];
       let fotos: string[] = [];
 
       if (Array.isArray(req.files) && req.files.length) {
@@ -261,8 +265,14 @@ app.post(
         }
       }
 
-      if (escola && textoReclamacao) {
-        const resultado = await novaReclamação(escola, textoReclamacao, fotos);
+      if (escola && textoReclamacao && título) {
+        //Adicionar checagem de limite de caracteres
+        const resultado = await novaReclamação(
+          escola,
+          título,
+          textoReclamacao,
+          fotos
+        );
         if (resultado instanceof Error) {
           return res.redirect(
             "/?erro=Erro ao fazer a reclamação! Tente novamente."

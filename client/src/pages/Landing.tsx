@@ -17,6 +17,7 @@ export default function Landing() {
   const navigate = useNavigate();
   const [erro, setErro] = useState<null | string>();
   const location = useLocation();
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setErro(searchParams.get("erro"));
@@ -37,7 +38,7 @@ export default function Landing() {
           <div className="lg:w-4/12 xl:w-2/5 mx-auto">
             <div className="items-center invisible lg:visible">
               <ReactSearchAutocomplete
-                styling={{ fontFamily: "Poppins" }}
+                styling={{ fontFamily: "Poppins", zIndex: 50 }}
                 placeholder="Procure uma escola..."
                 showNoResultsText={
                   items.length > 0 ? "Escola não encontrada." : "Carregando..."
