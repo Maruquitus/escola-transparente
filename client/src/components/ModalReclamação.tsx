@@ -30,7 +30,7 @@ export function ModalReclamação(props: {
             <img
               alt=""
               src={`/arquivos/${foto}`}
-              className="w-full mt-2 rounded-lg shadow-md"
+              className="w-auto mx-auto object-scale-down aspect-auto mt-2 rounded-lg shadow-md"
             />
           );
         })}
