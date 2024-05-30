@@ -24,7 +24,7 @@ export function ModalReclamação(props: {
           : "Imagem anexada"}
       </h1>
 
-      <div className="flex gap-4 overflow-x-scroll w-4/5">
+      <div className="flex gap-4 overflow-x-scroll lg:overflow-hidden w-4/5">
         {props.reclamação?.fotos.map((foto: string) => {
           return (
             <img
