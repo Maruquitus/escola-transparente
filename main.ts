@@ -6,6 +6,11 @@ import {
   limparReclamações,
   limparImagens,
   mostrarReclamações,
+  getReclamaçõesEscola,
+  curtir,
+  descurtir,
+  getCurtidas,
+  checkCurtida,
 } from "./db";
 import { download, uploadFiles, getListFiles } from "./upload";
 import { Escola } from "./client/src/interfaces";
@@ -198,10 +203,82 @@ app.post(
 app.post("/upload", uploadFiles);
 app.get("/arquivos/:name", download);
 
+// Pegar a quantidade de curtidas de uma reclamação
+app.get("/api/curtidas/:reclamacaoid", async (req: Request, res: Response) => {
+  const reclamacaoid = req.params.reclamacaoid;
+  if (!reclamacaoid) res.status(400).end();
+  else {
+    const curtidas = await getCurtidas(new ObjectId(reclamacaoid));
+    res.status(200).json(curtidas);
+  }
+});
+
+// Checar se a reclamação já foi curtida pelo usuário
+app.get(
+  "/api/curtido/:reclamacaoid",
+  async (req: RequestAutenticado, res: Response) => {
+    if (!req.user || !req.params.reclamacaoid) res.status(400).end();
+    if (req.user) {
+      const curtido = await checkCurtida(
+        new ObjectId(req.user.id),
+        new ObjectId(req.params.reclamacaoid)
+      );
+      res.status(200).json(curtido);
+    }
+  }
+);
+
+// Curtir e descurtir
+app.post(
+  "/api/curtir/:reclamacaoid",
+  async (req: RequestAutenticado, res: Response) => {
+    if (!req.user || !req.params.reclamacaoid) res.status(400).end();
+    if (req.user) {
+      curtir(new ObjectId(req.user.id), new ObjectId(req.params.reclamacaoid));
+      res.status(200).end();
+    }
+
+    // Validar autenticação do usuário e criar uma lista na bd das curtidas - quem deu e onde deu (lá ele)
+    // Talvez fazer uma coleção só de curtidas. Parece pertinente
+    // Pegar as variáveis não usadas e trocar por _ pra ficar bonitinho
+    // Unrelated: adicionar barra de pesquisa na página das escolas tbm (talvez deixar o get das escolas no componente de search, sla)
+  }
+);
+
+app.post(
+  "/api/descurtir/:reclamacaoid",
+  async (req: RequestAutenticado, res: Response) => {
+    if (!req.user || !req.params.reclamacaoid) res.status(400).end();
+    if (req.user) {
+      descurtir(
+        new ObjectId(req.user.id),
+        new ObjectId(req.params.reclamacaoid)
+      );
+      res.status(200).end();
+    }
+  }
+);
+
+// Pegar reclamações de uma escola específica
+app.get(
+  "/api/reclamacoes/:cidadeId/:escola",
+  async (req: Request, res: Response) => {
+    const resultado = await getReclamaçõesEscola(
+      req.params.escola,
+      parseInt(req.params.cidadeId)
+    );
+    if (resultado instanceof Error) {
+      res.status(500).send({ mensagem: "Erro ao carregar as reclamações!" });
+    } else {
+      res.status(200).json(resultado);
+    }
+  }
+);
+
 // Endpoints de debug
 if (process.env.IS_PRODUCTION == "false") {
   // Mostrar todas as reclamações
-  app.get("/api/reclamacoes", async (req: Request, res: Response) => {
+  app.get("/api/listreclamacoes", async (req: Request, res: Response) => {
     const resultado = await mostrarReclamações();
     if (resultado instanceof Error) {
       res.status(500).send({ mensagem: "Erro ao carregar as reclamações!" });
@@ -209,19 +286,19 @@ if (process.env.IS_PRODUCTION == "false") {
       res.status(200).json(resultado);
     }
   });
-  app.get("/api/limparReclamacoes", async (req: Request, res: Response) => {
+  app.post("/api/limparReclamacoes", async (req: Request, res: Response) => {
     await limparReclamações();
     res.status(200).send({ mensagem: "Reclamações limpas!" });
   });
-  app.get("/api/limparImagens", async (req: Request, res: Response) => {
+  app.post("/api/limparImagens", async (req: Request, res: Response) => {
     await limparImagens();
     res.status(200).send({ mensagem: "Imagens limpas!" });
   });
   app.get("/arquivos", getListFiles);
 }
 
-// Lidar com as solicitações POST feitas à rota /api/escolas
-app.post("/api/escolas", async (req: Request, res: Response) => {
+// Lidar com as solicitações GET feitas à rota /api/escolas
+app.get("/api/escolas", async (req: Request, res: Response) => {
   let dados: Escola[] = await getEscolas();
   res.json(dados);
 });
@@ -317,7 +394,7 @@ app.post("/api/sair", async (req: RequestAutenticado, res: Response) => {
 });
 
 //Checar autenticação
-app.post(
+app.get(
   "/api/checkAutenticado",
   async (req: RequestAutenticado, res: Response) => {
     if (!req.user) res.status(200).send([false, null]);

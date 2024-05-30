@@ -23,6 +23,23 @@ export const converterEscolas = (escolas: Escola[]): Item[] => {
   return escolas.map(({inep_id, nome}) => ({id: inep_id, name: formatarNome(nome)}))
 }
 
+export const checarAutenticação = async () => {
+  return await fetch("/api/checkAutenticado").then(async (res: Response) => {
+    return await res.json();
+  });
+};
+
+export const carregarEscolas = async () => {
+  return await fetch("/api/escolas")
+    .then(async (res: Response) => {
+      const data: Escola[] = await res.json();
+      return data;
+    })
+    .catch((e) => {
+      throw new Response(e);
+    });
+};
+
 export const procurarEscola = (nome: string, escolas: Escola[]) => {
   for (const escola of escolas) {
     if (nome === formatarNome(escola.nome)) {

@@ -1,20 +1,45 @@
-import { ReactNode, FC } from "react";
+import { ReactNode, FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { routeTitles } from "../routeTitles";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import { Escola, Item } from "../interfaces";
+import {
+  procurarEscola,
+  converterEscolas,
+  carregarEscolas,
+  checarAutenticação,
+} from "../functions";
 
 export const Header: FC<{
   children?: ReactNode;
   customClass?: string;
-  logado?: boolean;
-  usuário?: string;
+  escolas?: Escola[];
 }> = (props) => {
   const pathname: string = useLocation().pathname;
   const navigate = useNavigate();
   const título: string = routeTitles[pathname];
-  let logado = props.logado;
-  let usuário = props.usuário;
-  if (logado === undefined) logado = false;
+  const [logado, setLogado] = useState(false);
+  const [usuário, setUsuário] = useState();
+
+  useEffect(() => {
+    checarAutenticação().then(async (res: [boolean, any]) => {
+      setLogado(res[0]);
+      if (res[0]) setUsuário(res[1].username);
+    });
+    if (props.escolas !== undefined) {
+      setEscolas(props.escolas);
+      setItems(converterEscolas(props.escolas));
+    } else {
+      carregarEscolas().then((escolas) => {
+        setEscolas(escolas);
+        setItems(converterEscolas(escolas));
+      });
+    }
+  }, [props.escolas]);
+
+  const [escolas, setEscolas] = useState<Escola[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
 
   document.title = `${título ? título : "404"} | Escola Transparente`;
 
@@ -45,10 +70,37 @@ export const Header: FC<{
         </span>
       </Link>
       {props.children}
+      {/* Pesquisa desktop */}
+      <div className="place-content-around left-0 pointer-events-none absolute w-full flex h-10 invisible md:visible">
+        <div className="lg:w-4/12 xl:w-2/5 mx-auto">
+          <div className="items-center invisible lg:visible">
+            <ReactSearchAutocomplete
+              styling={{ fontFamily: "Poppins", zIndex: 50 }}
+              placeholder="Procure uma escola..."
+              showNoResultsText={
+                items.length > 0 ? "Escola não encontrada." : "Carregando..."
+              }
+              className="self-center pointer-events-auto mt-10 w-full md:mt-0 bottom-0.5 mx-auto"
+              items={items}
+              fuseOptions={{ keys: ["name"] }}
+              onSelect={(item: Item) => {
+                const escola = procurarEscola(item.name, escolas);
+                console.log(escolas);
+                if (escola) {
+                  navigate("/escola", {
+                    state: { escola: procurarEscola(item.name, escolas) },
+                  });
+                }
+              }}
+              formatResult={(item: Item) => {
+                return <h2>{item.name}</h2>;
+              }}
+            />
+          </div>
+        </div>
+      </div>
       {logado && (
-        <div
-          className={`ml-auto ${!props.children && "-mr-1"} h-8 hidden md:flex`}
-        >
+        <div className={`ml-auto h-8 hidden md:flex`}>
           <h2
             onClick={async () => {
               fetch("/api/sair", { method: "POST" }).then(

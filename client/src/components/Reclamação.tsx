@@ -1,0 +1,92 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faMaximize } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartOutline } from "@fortawesome/free-regular-svg-icons";
+import { useEffect, useState } from "react";
+import Badge from "./Badge";
+
+export function Reclamação(props: {
+  usuário?: string;
+  reclamação: any;
+  setReclamação: Function;
+  setModalAberto: Function;
+}) {
+  const handleCurtida = async () => {
+    let sucesso = false;
+    sucesso = await fetch(
+      `/api/${curtido ? "descurtir" : "curtir"}/${props.reclamação._id}`,
+      {
+        method: "POST",
+      }
+    ).then((res) => {
+      return res.status === 200;
+    });
+    if (!sucesso) alert("Faça login para curtir uma reclamação!");
+    if (sucesso) {
+      setCurtido(!curtido);
+      setCurtidas(curtidas + (curtido ? -1 : 1));
+    }
+  };
+
+  const atualizar = () => {
+    fetch(`/api/curtidas/${props.reclamação._id}`).then(async (res: any) => {
+      if (res.status === 200) setCurtidas(await res.json());
+    });
+    fetch(`/api/curtido/${props.reclamação._id}`).then(async (res: any) => {
+      if (res.status === 200) setCurtido(await res.json());
+    });
+  };
+
+  const [curtido, setCurtido] = useState(false);
+  const [curtidas, setCurtidas] = useState(0);
+  useEffect(() => {
+    atualizar();
+    // eslint-disable-next-line
+  }, []);
+  return (
+    <div className="w-full border select-none border-gray-100 bg-blue-500 shadow-md p-5 rounded-lg duration-300">
+      {props.reclamação.fotos.length > 0 && (
+        <FontAwesomeIcon
+          onClick={() => {
+            props.setModalAberto(true);
+            props.setReclamação(props.reclamação);
+          }}
+          icon={faMaximize}
+          size="lg"
+          color="white"
+          className="hover:scale-105 hover:cursor-pointer duration-300 float-end mt-1"
+        />
+      )}
+      <h1 className="font-semibold font-sans text-lg text-white">
+        {props.reclamação.título}
+      </h1>
+      <p className="text-lg font-sans text-white mb-2">
+        {props.reclamação.textoReclamação}
+      </p>
+      <div className="flex lg:flex-row flex-col w-full lg:space-x-2 lg:space-y-0 space-y-1">
+        <Badge tipo={1} texto={props.reclamação.status} />
+        {props.reclamação.fotos && props.reclamação.fotos.length > 0 && (
+          <Badge
+            tipo={2}
+            texto={`${props.reclamação.fotos.length} ${
+              props.reclamação.fotos.length > 1
+                ? "imagens anexadas"
+                : "imagem anexada"
+            }`}
+          />
+        )}
+      </div>
+      <div className="float-right -translate-y-6 flex items-center">
+        <h2 className="font-semibold font-sans mr-1 w-5 h-6 text-right text-white">
+          {curtidas}
+        </h2>
+        <FontAwesomeIcon
+          icon={curtido ? faHeart : faHeartOutline}
+          onClick={handleCurtida}
+          size="lg"
+          color="white"
+          className="hover:scale-105 hover:cursor-pointer duration-300"
+        />
+      </div>
+    </div>
+  );
+}

@@ -1,64 +1,34 @@
 import { Header } from "../components/Header";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import { Escola, Item } from "../interfaces";
-import { procurarEscola, converterEscolas } from "../functions";
 import { MobileNav } from "../components/MobileNav";
-import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { ModalReclamação } from "../components/ModalReclamação";
-import { useLocation } from "react-router-dom";
+import { ModalNovaReclamação } from "../components/ModalNovaReclamação";
+import { useLoaderData, useLocation } from "react-router-dom";
+import { converterEscolas } from "../functions";
+import { Escola } from "../interfaces";
 
 export default function Landing() {
-  const escolas: Escola[] | undefined = useLoaderData() as Escola[];
   const [modalAberto, setModalAberto] = useState(false);
   const [imagemCarregada, setImagemCarregada] = useState(false);
-  const navigate = useNavigate();
   const [erro, setErro] = useState<null | string>();
+  const [alertaExibido, setExibido] = useState(false);
   const location = useLocation();
+  const items = converterEscolas(useLoaderData() as Escola[]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setErro(searchParams.get("erro"));
-    if (searchParams.get("sucesso") === "true") {
+    if (searchParams.get("sucesso") === "true" && !alertaExibido) {
+      setExibido(true);
       alert("Reclamação feita com sucesso!");
     }
     if (searchParams.get("erro") !== null) setModalAberto(true);
-  }, [location.search]);
-
-  if (!escolas) return <div></div>;
-  const items = converterEscolas(escolas);
+  }, [location.search, alertaExibido]);
 
   return (
     <div className="w-full h-full flex-col flex">
-      <Header>
-        {/* Pesquisa desktop */}
-        <div className="place-content-around left-0 pointer-events-none absolute w-full flex h-10 invisible md:visible">
-          <div className="lg:w-4/12 xl:w-2/5 mx-auto">
-            <div className="items-center invisible lg:visible">
-              <ReactSearchAutocomplete
-                styling={{ fontFamily: "Poppins", zIndex: 50 }}
-                placeholder="Procure uma escola..."
-                showNoResultsText={
-                  items.length > 0 ? "Escola não encontrada." : "Carregando..."
-                }
-                className="self-center pointer-events-auto mt-10 w-full md:mt-0 bottom-0.5 mx-auto"
-                items={items}
-                fuseOptions={{ keys: ["name"] }}
-                onSelect={(item: Item) => {
-                  navigate("/escola", {
-                    state: { escola: procurarEscola(item.name, escolas) },
-                  });
-                }}
-                formatResult={(item: Item) => {
-                  return <h2>{item.name}</h2>;
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </Header>
+      <Header />
       <main className="block h-full w-full ">
         {/* Parte inicial */}
         <div className="md:flex block w-full">
@@ -75,7 +45,10 @@ export default function Landing() {
               mesmo!
             </h2>
             <button
-              onClick={() => setModalAberto(true)}
+              onClick={() => {
+                setExibido(false);
+                setModalAberto(true);
+              }}
               className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white"
             >
               Nova reclamação
@@ -104,7 +77,7 @@ export default function Landing() {
       {/* Painel mobile */}
       <MobileNav />
       {/* Modal */}
-      <ModalReclamação
+      <ModalNovaReclamação
         setModalAberto={setModalAberto}
         modalAberto={modalAberto}
         items={items}

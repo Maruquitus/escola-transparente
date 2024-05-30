@@ -1,4 +1,4 @@
-import { database, getDB } from "./db";
+import { database } from "./db";
 import { Request, Response } from "express";
 import { uploadMiddleware } from "./middleware/upload";
 
@@ -26,8 +26,6 @@ const uploadFiles = async (req: Request, res: any) => {
 
 const getListFiles = async (req: Request, res: Response) => {
   try {
-    await getDB();
-
     const images = database.collection("Imagens.files");
     const cursor = images.find({});
     const fileInfos = await cursor.toArray();
@@ -53,8 +51,6 @@ const getListFiles = async (req: Request, res: Response) => {
 
 const download = async (req: Request, res: Response) => {
   try {
-    await getDB();
-
     const bucket = new GridFSBucket(database, {
       bucketName: "Imagens",
     });

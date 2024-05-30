@@ -4,6 +4,7 @@ import {
   Collection,
   Db,
   Document,
+  ObjectId,
 } from "mongodb";
 import { configDotenv } from "dotenv";
 import { pbkdf2 } from "crypto";
@@ -20,7 +21,8 @@ const client = new MongoClient(URL_BD, {
 let database: Db,
   reclamações: Collection<Document>,
   usuários: Collection<Document>,
-  imagens: Collection<Document>;
+  imagens: Collection<Document>,
+  curtidas: Collection<Document>;
 
 async function run() {
   try {
@@ -28,11 +30,15 @@ async function run() {
     database = client.db("db");
     reclamações = database.collection("Reclamações");
     usuários = database.collection("Usuários");
+    curtidas = database.collection("Curtidas");
     imagens = database.collection("Imagens.files");
+    console.log("Conexão com a base de dados realizada com êxito!");
   } catch (Exception) {
     console.log(Exception);
   }
 }
+
+run().catch(console.dir);
 
 async function getDB() {
   if (reclamações == undefined) {
@@ -43,13 +49,51 @@ async function getDB() {
 }
 
 async function contarDocs() {
-  await getDB();
   return await reclamações.countDocuments({});
 }
 
+export async function checkCurtida(
+  usuárioId: ObjectId,
+  reclamaçãoId: ObjectId
+) {
+  return (
+    (await curtidas.findOne({
+      usuário: usuárioId,
+      reclamação: reclamaçãoId,
+    })) !== null
+  );
+}
+
+export async function getCurtidas(reclamaçãoId: ObjectId) {
+  return await (
+    await curtidas
+      .find({
+        reclamação: reclamaçãoId,
+      })
+      .toArray()
+  ).length;
+}
+
+export async function curtir(usuárioId: ObjectId, reclamaçãoId: ObjectId) {
+  await curtidas.insertOne({
+    usuário: usuárioId,
+    reclamação: reclamaçãoId,
+  });
+}
+
+export async function descurtir(usuárioId: ObjectId, reclamaçãoId: ObjectId) {
+  await curtidas.deleteMany({
+    usuário: usuárioId,
+    reclamação: reclamaçãoId,
+  });
+}
+
 export async function getUsuário(usuário: string) {
-  await getDB();
   return usuários.findOne({ usuário: usuário });
+}
+
+export async function getReclamaçõesEscola(escola: string, cidadeId: number) {
+  return reclamações.find({ escola: escola, cidadeId: cidadeId }).toArray();
 }
 
 function hashSenha(senha: string) {
@@ -65,26 +109,26 @@ export async function novaReclamação(
   escola: string,
   título: string,
   textoReclamação: string,
-  fotos: string[]
+  fotos: string[],
+  cidadeId: number = 2303501
 ) {
-  await getDB();
   let dados = {
-    escola: escola,
+    cidadeId: cidadeId,
+    escola: escola.toUpperCase(),
     título: título,
     textoReclamação: textoReclamação,
-    fotos: fotos,
+    fotos: fotos, //Array com os nomes dos arquivos das fotos
+    status: "Não respondida",
   };
   await reclamações.insertOne(dados);
   return { message: "Nova reclamação feita com sucesso!" };
 }
 
 export async function limparReclamações() {
-  await getDB();
   await reclamações.deleteMany({});
 }
 
 export async function limparImagens() {
-  await getDB();
   await imagens.deleteMany({});
 }
 
@@ -116,12 +160,10 @@ export async function autenticarUsuário(usuário: string, senha: string) {
 }
 
 export async function mostrarReclamações() {
-  await getDB();
   return await reclamações.find({}).toArray();
 }
 
 export async function novoUsuário(usuário: string, senha: string) {
-  await getDB();
   if (validarUsuário(usuário) == false)
     return Error(
       "Nome de usuário inválido! Use apenas letras, números ou underscores."
@@ -142,5 +184,4 @@ export async function novoUsuário(usuário: string, senha: string) {
   }
 }
 
-export { database, URL_BD, getDB, credentials };
-run().catch(console.dir);
+export { database, URL_BD, credentials, getDB };

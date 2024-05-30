@@ -16,7 +16,7 @@ export default function Pesquisa() {
   const navigate = useNavigate();
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > 1024) {
         navigate("/");
       }
     };
@@ -29,7 +29,7 @@ export default function Pesquisa() {
 
   return (
     <div className="w-full h-full flex-col flex text-center">
-      <div className="md:hidden block">
+      <div className="lg:hidden block">
         <Header />
         <main>
           <ReactSearchAutocomplete
@@ -38,7 +38,7 @@ export default function Pesquisa() {
             showNoResultsText={
               items.length > 0 ? "Escola não encontrada." : "Carregando..."
             }
-            className="self-center mt-10 w-11/12 md:mt-0 bottom-0.5 mx-auto"
+            className="self-center mt-10 w-11/12 lg:mt-0 bottom-0.5 mx-auto"
             items={items}
             fuseOptions={{ keys: ["name"] }}
             onSelect={(item: Item) => {

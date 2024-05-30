@@ -10,28 +10,10 @@ import Pesquisa from "./pages/Pesquisa";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
 import PáginaEscola from "./pages/Escola";
-import { Escola } from "./interfaces";
 import { Loader } from "./components/Loader";
 import Home from "./pages/Home";
+import { checarAutenticação, carregarEscolas } from "./functions";
 
-const checarAutenticação = async () => {
-  return await fetch("/api/checkAutenticado", { method: "POST" }).then(
-    async (res: Response) => {
-      return await res.json();
-    }
-  );
-}
-
-const carregarEscolas = async () => {  
-    return await fetch("/api/escolas", {method: "POST"})
-        .then(async (res: Response) => {
-          const data: Escola[] = await res.json();
-          return data;
-        })
-        .catch((e) => {
-          throw new Response(e);
-        });      
-}
 
 const router = createBrowserRouter([
   {
@@ -39,7 +21,7 @@ const router = createBrowserRouter([
     element: <Landing />,
     errorElement: <Erro />,
     loader: carregarEscolas,
-    },
+  },
   {
     path: "/pesquisa",
     element: <Pesquisa />,
@@ -84,7 +66,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RouterProvider fallbackElement={<Loader/>} router={router} />
+    <RouterProvider fallbackElement={<Loader />} router={router} />
   </React.StrictMode>
 );
 
