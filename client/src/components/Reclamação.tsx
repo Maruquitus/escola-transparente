@@ -9,6 +9,7 @@ export function Reclamação(props: {
   reclamação: any;
   setReclamação: Function;
   setModalAberto: Function;
+  curtidas: number;
 }) {
   const handleCurtida = async () => {
     let sucesso = false;
@@ -37,7 +38,7 @@ export function Reclamação(props: {
   };
 
   const [curtido, setCurtido] = useState(false);
-  const [curtidas, setCurtidas] = useState(0);
+  const [curtidas, setCurtidas] = useState(props.curtidas);
   useEffect(() => {
     atualizar();
     // eslint-disable-next-line

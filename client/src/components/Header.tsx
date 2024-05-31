@@ -112,7 +112,7 @@ export const Header: FC<{
                 }
               );
             }}
-            className="text-white hover:scale-105 duration-300 cursor-pointer font-semibold text-lg mt-1.5"
+            className="text-white font-sans hover:scale-105 duration-300 cursor-pointer font-semibold truncate text-lg mt-1.5"
           >
             <i className="fa-solid fa-right-from-bracket text-white"></i>{" "}
             {usuário}

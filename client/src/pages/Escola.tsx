@@ -36,7 +36,9 @@ export default function PáginaEscola() {
       ), //Adicionar conexão para pegar o campo do id da cidade
       {}
     ).then(async (res) => {
-      setTimeout(async () => setReclamações(await res.json()), 500);
+      setTimeout(async () => {
+        setReclamações(await res.json());
+      }, 500);
     });
   }, [state]);
   if (state === null) {
@@ -115,20 +117,28 @@ export default function PáginaEscola() {
             </div>
           )}
           {reclamações &&
-            reclamações.map((rec: any) => {
-              return (
-                <Reclamação
-                  key={rec._id}
-                  reclamação={rec}
-                  usuário={usuário?.id}
-                  setModalAberto={setModalAberto}
-                  setReclamação={setReclamação}
-                />
-              );
-            })}
+            reclamações
+              .sort((a, b) => b.curtidas - a.curtidas)
+              .map((rec: any) => {
+                return (
+                  <Reclamação
+                    key={rec._id}
+                    reclamação={rec}
+                    usuário={usuário?.id}
+                    setModalAberto={setModalAberto}
+                    setReclamação={setReclamação}
+                    curtidas={rec.curtidas}
+                  />
+                );
+              })}
         </div>
       </main>
-      <ModalReclamação setModalAberto={setModalAberto} modalAberto={modalAberto} reclamação={reclamação} setReclamação={setReclamação} />
+      <ModalReclamação
+        setModalAberto={setModalAberto}
+        modalAberto={modalAberto}
+        reclamação={reclamação}
+        setReclamação={setReclamação}
+      />
       <MobileNav />
     </div>
   );

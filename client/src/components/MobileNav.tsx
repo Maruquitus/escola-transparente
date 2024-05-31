@@ -76,7 +76,7 @@ export const MobileNav: FC = () => {
                   }
                 );
               }}
-              className="text-white w-full hover:scale-105 duration-300 text-center cursor-pointer font-sans font-semibold text-sm"
+              className="text-white truncate w-full hover:scale-105 duration-300 text-center cursor-pointer font-sans font-semibold text-sm"
             >
               <i className="fa-solid fa-right-from-bracket text-white"></i>{" "}
               {usuário}

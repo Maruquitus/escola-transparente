@@ -75,17 +75,25 @@ export async function getCurtidas(reclamaçãoId: ObjectId) {
 }
 
 export async function curtir(usuárioId: ObjectId, reclamaçãoId: ObjectId) {
-  await curtidas.insertOne({
-    usuário: usuárioId,
-    reclamação: reclamaçãoId,
-  });
+  const curtido = await checkCurtida(usuárioId, reclamaçãoId);
+  if (!curtido) {
+    reclamações.updateOne({ _id: reclamaçãoId }, { $inc: { curtidas: 1 } });
+    await curtidas.insertOne({
+      usuário: usuárioId,
+      reclamação: reclamaçãoId,
+    });
+  }
 }
 
 export async function descurtir(usuárioId: ObjectId, reclamaçãoId: ObjectId) {
-  await curtidas.deleteMany({
-    usuário: usuárioId,
-    reclamação: reclamaçãoId,
-  });
+  const curtido = await checkCurtida(usuárioId, reclamaçãoId);
+  if (curtido) {
+    reclamações.updateOne({ _id: reclamaçãoId }, { $inc: { curtidas: -1 } });
+    await curtidas.deleteMany({
+      usuário: usuárioId,
+      reclamação: reclamaçãoId,
+    });
+  }
 }
 
 export async function getUsuário(usuário: string) {
@@ -119,6 +127,7 @@ export async function novaReclamação(
     textoReclamação: textoReclamação,
     fotos: fotos, //Array com os nomes dos arquivos das fotos
     status: "Não respondida",
+    curtidas: 0,
   };
   await reclamações.insertOne(dados);
   return { message: "Nova reclamação feita com sucesso!" };

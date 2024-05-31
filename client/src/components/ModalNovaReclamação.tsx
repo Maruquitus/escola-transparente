@@ -25,7 +25,7 @@ export const ModalNovaReclamação: FC<{
       }}
       className={`${
         modalAberto
-          ? "opacity-1 pointer-events-auto"
+          ? "opacity-1 pointer-events-auto bg-slate-400/20"
           : "opacity-0 pointer-events-none"
       } absolute transition-opacity duration-300 backdrop-blur-md z-10 w-full h-full justify-center items-center flex`}
     >
