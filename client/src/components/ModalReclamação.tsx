@@ -23,22 +23,22 @@ export function ModalReclamação(props: {
           : "opacity-0 pointer-events-none"
       } fixed top-0 left-0 w-screen h-screen flex flex-col items-center justify-center transition-opacity duration-300 backdrop-blur-md z-10`}
     >
-      <div id="modal" className="md:mb-0 mb-16">
+      <div id="modal" className="md:mb-0 mb-16 md:w-4/5 md:mx-auto">
         <h1 className="font-sans w-fit mx-auto font-semibold text-3xl bg-white rounded-lg shadow-md p-3">
           {props.reclamação?.fotos.length > 1
             ? "Imagens anexadas"
             : "Imagem anexada"}
         </h1>
 
-        <div className="hidden md:flex justify-around h-4/5  mt-2">
+        <div className="hidden md:flex justify-around space-x-4 w-full mt-2">
           {props.reclamação?.fotos.map((foto: string) => {
             return (
-              <div className="aspect-[10/11] bg-white px-3 py-4 pb-8 shadow-md rounded-md">
-                <div className="bg-gray-300 rounded-lg">
+              <div className="aspect-[10/11] w-full bg-white px-3 py-4 pb-8 shadow-md rounded-md">
+                <div className="bg-gray-300 rounded-lg w-full h-full relative">
                   <img
                     alt=""
                     src={`/arquivos/${foto}`}
-                    className="h-full w-full object-fill aspect-auto rounded-lg shadow-md"
+                    className="absolute top-0 left-0 w-full h-full object-cover rounded-lg shadow-md"
                   />
                 </div>
               </div>
@@ -47,28 +47,24 @@ export function ModalReclamação(props: {
         </div>
         <div className="flex md:hidden w-80 bg-white shadow-md px-3 py-4 mt-2 rounded-md">
           <Swiper
-            className="p-2 w-full h-80 md:hidden"
+            className="p-2 w-full h-80 md:hidden rounded-lg"
             spaceBetween={10}
             modules={[Pagination]}
-            pagination={{
-              dynamicBullets: true,
-            }}
+            pagination={{ dynamicBullets: true }}
             slidesPerView={1}
             direction="horizontal"
           >
-            {props.reclamação?.fotos.map((foto: string) => {
-              return (
-                <SwiperSlide>
-                  <div className="bg-gray-300 rounded-lg">
-                    <img
-                      alt=""
-                      src={`/arquivos/${foto}`}
-                      className="w-auto mx-auto object-cover aspect-auto rounded-lg shadow-md"
-                    />
-                  </div>
-                </SwiperSlide>
-              );
-            })}
+            {props.reclamação?.fotos.map((foto: string, index: number) => (
+              <SwiperSlide key={index}>
+                <div className="bg-gray-300 flex rounded-lg h-72">
+                  <img
+                    alt=""
+                    src={`/arquivos/${foto}`}
+                    className="w-full h-full object-cover rounded-lg shadow-md"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
       </div>
