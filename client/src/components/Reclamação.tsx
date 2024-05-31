@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMaximize } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faImages } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartOutline } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 import Badge from "./Badge";
@@ -29,9 +29,6 @@ export function Reclamação(props: {
   };
 
   const atualizar = () => {
-    fetch(`/api/curtidas/${props.reclamação._id}`).then(async (res: any) => {
-      if (res.status === 200) setCurtidas(await res.json());
-    });
     fetch(`/api/curtido/${props.reclamação._id}`).then(async (res: any) => {
       if (res.status === 200) setCurtido(await res.json());
     });
@@ -51,7 +48,7 @@ export function Reclamação(props: {
             props.setModalAberto(true);
             props.setReclamação(props.reclamação);
           }}
-          icon={faMaximize}
+          icon={faImages}
           size="lg"
           color="white"
           className="hover:scale-105 hover:cursor-pointer duration-300 float-end mt-1"

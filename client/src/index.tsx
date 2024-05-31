@@ -14,7 +14,6 @@ import { Loader } from "./components/Loader";
 import Home from "./pages/Home";
 import { checarAutenticação, carregarEscolas } from "./functions";
 
-
 const router = createBrowserRouter([
   {
     path: "/",

@@ -9,7 +9,6 @@ import {
   getReclamaçõesEscola,
   curtir,
   descurtir,
-  getCurtidas,
   checkCurtida,
 } from "./db";
 import { download, uploadFiles, getListFiles } from "./upload";
@@ -202,16 +201,6 @@ app.post(
 // Upload e download de arquivos
 app.post("/upload", uploadFiles);
 app.get("/arquivos/:name", download);
-
-// Pegar a quantidade de curtidas de uma reclamação
-app.get("/api/curtidas/:reclamacaoid", async (req: Request, res: Response) => {
-  const reclamacaoid = req.params.reclamacaoid;
-  if (!reclamacaoid) res.status(400).end();
-  else {
-    const curtidas = await getCurtidas(new ObjectId(reclamacaoid));
-    res.status(200).json(curtidas);
-  }
-});
 
 // Checar se a reclamação já foi curtida pelo usuário
 app.get(

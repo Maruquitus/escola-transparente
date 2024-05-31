@@ -64,16 +64,6 @@ export async function checkCurtida(
   );
 }
 
-export async function getCurtidas(reclamaçãoId: ObjectId) {
-  return await (
-    await curtidas
-      .find({
-        reclamação: reclamaçãoId,
-      })
-      .toArray()
-  ).length;
-}
-
 export async function curtir(usuárioId: ObjectId, reclamaçãoId: ObjectId) {
   const curtido = await checkCurtida(usuárioId, reclamaçãoId);
   if (!curtido) {

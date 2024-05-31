@@ -14,7 +14,8 @@ export default function Landing() {
   const [erro, setErro] = useState<null | string>();
   const [alertaExibido, setExibido] = useState(false);
   const location = useLocation();
-  const items = converterEscolas(useLoaderData() as Escola[]);
+  const escolas = useLoaderData() as Escola[];
+  const items = converterEscolas(escolas);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -28,7 +29,7 @@ export default function Landing() {
 
   return (
     <div className="w-full h-full flex-col flex">
-      <Header />
+      <Header escolas={escolas} />
       <main className="block h-full w-full ">
         {/* Parte inicial */}
         <div className="md:flex block w-full">

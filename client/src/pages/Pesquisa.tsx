@@ -30,7 +30,7 @@ export default function Pesquisa() {
   return (
     <div className="w-full h-full flex-col flex text-center">
       <div className="lg:hidden block">
-        <Header />
+        <Header escolas={escolas}/>
         <main>
           <ReactSearchAutocomplete
             styling={{ fontFamily: "Poppins", zIndex: 50 }}

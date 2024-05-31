@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
+import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 
 export default function Badge(props: {
   texto: string;
@@ -26,7 +26,7 @@ export default function Badge(props: {
         } font-medium`}
       >
         {props.tipo === 2 && (
-          <FontAwesomeIcon icon={faPhotoFilm} color="white" className="mr-1" />
+          <FontAwesomeIcon icon={faFileImage} color="white" className="mr-1" />
         )}
         {props.texto}
       </p>
