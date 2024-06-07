@@ -1,6 +1,6 @@
 import { Header } from "../components/Header";
 import { MobileNav } from "../components/MobileNav";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ModalNovaReclamação } from "../components/ModalNovaReclamação";
@@ -13,36 +13,15 @@ import Seguranca from "../assets/seguranca.svg";
 import Anonimo from "../assets/anonimo.svg";
 
 export default function Landing() {
-  const [modalAberto, setModalAberto] = useState(false);
   const [imagemCarregada, setImagemCarregada] = useState(false);
-  const [erro, setErro] = useState<null | string>();
-  const [alertaExibido, setExibido] = useState(false);
-  const location = useLocation();
-  const escolas = useLoaderData() as Escola[];
-  const items = converterEscolas(escolas);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    setErro(searchParams.get("erro"));
-    if (
-      searchParams.get("sucesso") === "true" &&
-      !alertaExibido &&
-      !modalAberto
-    ) {
-      setExibido(true);
-      alert("Reclamação feita com sucesso!");
-    }
-    if (searchParams.get("erro") !== null) setModalAberto(true);
-  }, [location.search, alertaExibido, modalAberto]);
-
   return (
     <div className="w-full h-full flex-col flex">
-      <Header escolas={escolas} />
+      <Header />
       <main className="block h-full w-full ">
         {/* Parte inicial */}
         <section className="md:flex block w-full">
           <div className="md:w-4/5 w-full">
-            <h1 className="md:text-5xl text-3xl ml-6 mt-32 font-semibold font-sans text-gray-900">
+            <h1 className="md:text-5xl text-3xl ml-6 mt-40 font-semibold font-sans text-gray-900">
               Seja bem-vindo à <br className="md:inline hidden" /> Escola{" "}
               <span className="font-semibold font-sans text-blue-500">
                 Transparente
@@ -53,15 +32,6 @@ export default function Landing() {
               Insatisfeito com a infraestrutura de sua escola? Reclame agora
               mesmo!
             </h2>
-            <button
-              onClick={() => {
-                setModalAberto(true);
-                setExibido(false);
-              }}
-              className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white"
-            >
-              Nova reclamação
-            </button>
           </div>
           <div className="w-full h-full md:1/4 py-9 select-none text-center">
             {!imagemCarregada && (
@@ -187,13 +157,6 @@ export default function Landing() {
       </main>
       {/* Painel mobile */}
       <MobileNav />
-      {/* Modal */}
-      <ModalNovaReclamação
-        setModalAberto={setModalAberto}
-        modalAberto={modalAberto}
-        items={items}
-        erro={erro}
-      />
 
       <footer className="bottom-1 text-center w-full">
         <a

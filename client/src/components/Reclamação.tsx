@@ -14,7 +14,7 @@ export function Reclamação(props: {
 }) {
   const telaHome: boolean = !props.setModalAberto || !props.setReclamação;
   const handleCurtida = async () => {
-    if (telaHome) {
+    if (!telaHome) {
       let sucesso = false;
       sucesso = await fetch(
         `/api/${curtido ? "descurtir" : "curtir"}/${props.reclamação._id}`,
@@ -47,7 +47,7 @@ export function Reclamação(props: {
   return (
     <div
       className={`${
-        telaHome ? "p-5 pb-0" : "p-5"
+        telaHome ? "p-5 pb-0 hover:scale-95 hover:cursor-pointer" : "p-5"
       } border w-full select-none border-gray-100 bg-blue-500 shadow-md rounded-lg duration-300`}
     >
       {!telaHome && props.reclamação.fotos.length > 0 && (

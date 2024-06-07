@@ -340,18 +340,18 @@ app.post(
           fotos
         );
         if (resultado instanceof Error) {
-          return res.redirect(
-            "/?erro=Erro ao fazer a reclamação! Tente novamente."
-          );
+          return res
+            .status(400)
+            .send("Erro ao fazer a reclamação! Tente novamente.");
         }
-        return res.redirect("/?sucesso=true");
+        return res.status(200).send("Reclamação feita com sucesso!");
       } else {
-        return res.redirect(
-          "/?erro=Preencha o formulário por completo e tente de novo."
-        );
+        return res
+          .status(400)
+          .send("Preencha o formulário por completo e tente de novo.");
       }
     } catch (error: any) {
-      return res.redirect(`/?erro=${error.message}`);
+      return res.status(500).send(error.message);
     }
   }
 );
