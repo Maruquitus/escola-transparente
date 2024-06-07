@@ -1,22 +1,19 @@
 import { FC, useEffect } from "react";
-import { Item } from "../interfaces";
 import { useState } from "react";
 
 export const ModalNovaReclamação: FC<{
-  items: Item[];
   modalAberto: boolean;
   erro: string | undefined | null;
   setModalAberto: Function;
+  escola: string;
+  submit: Function;
 }> = (props) => {
   const [reclamaçãoEnviada, setEnviada] = useState(false);
   const [modalAberto, setModalAberto] = [
     props.modalAberto,
     props.setModalAberto,
   ];
-  const items: { name: string; id: string }[] = JSON.parse(
-    JSON.stringify(props.items)
-  );
-  items.sort((a, b) => a.name.localeCompare(b.name));
+
   useEffect(() => {
     setEnviada(false);
   }, []);
@@ -32,14 +29,16 @@ export const ModalNovaReclamação: FC<{
         modalAberto
           ? "opacity-1 pointer-events-auto bg-slate-400/20"
           : "opacity-0 pointer-events-none"
-      } absolute transition-opacity duration-300 backdrop-blur-md z-10 w-full h-full justify-center items-center flex`}
+      } fixed  transition-opacity duration-300 backdrop-blur-md z-10 w-full h-full justify-center items-center flex`}
     >
       <form
-        onSubmit={() => setEnviada(true)}
-        method="POST"
-        action="/api/novaReclamacao"
+        onSubmit={async (e) => {
+          setEnviada(true);
+          e.preventDefault();
+          await props.submit(new FormData(e.currentTarget));
+          window.location.reload();
+        }}
         id="modal"
-        encType="multipart/form-data"
         className="w-full sm:w-2/3 lg:w-1/2 rounded-lg p-10 bg-white shadow-gray-300 shadow-lg mx-auto"
       >
         <i
@@ -49,24 +48,12 @@ export const ModalNovaReclamação: FC<{
         <h1 className="font-sans text-4xl text-center font-bold mx-auto">
           Dados da reclamação
         </h1>
-        {/* Adicionar campo para o estado / cidade */}
-        <label className="text-gray-500 text-xl font-sans font-medium">
-          Escola
-        </label>
-        <select
-          defaultValue={"Escolha uma escola"}
-          className="w-full py-2 px-4 outline-none border-0 bg-slate-100 rounded-md font-sans"
+        <input
+          type="text"
           name="escola"
-          form="modal"
-        >
-          <option selected value="">
-            Escolha uma escola
-          </option>
-          {items.map((item) => {
-            if (item.id) return <option value={item.name}> {item.name}</option>;
-            return <div></div>;
-          })}
-        </select>
+          className="hidden"
+          value={props.escola}
+        />
         <label className="text-gray-500 text-xl font-sans font-medium">
           Título
         </label>

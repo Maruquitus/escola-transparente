@@ -3,6 +3,10 @@ import { Header } from "../components/Header";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { MobileNav } from "../components/MobileNav";
 import { Reclamação } from "../components/Reclamação";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngry } from "@fortawesome/free-solid-svg-icons";
+
+const adm = true;
 
 const placeholder = [
   {
@@ -24,7 +28,7 @@ const placeholder = [
     textoReclamação:
       "Os professores não estão preparados, muitas reclamações sobre didática.",
     fotos: "",
-    status: "Não respondida",
+    status: adm ? "Resposta satisfatória" : "Não respondida",
     curtidas: "2",
   },
   {
@@ -46,7 +50,7 @@ const placeholder = [
     textoReclamação:
       "A segurança na escola é insuficiente, vários incidentes relatados.",
     fotos: "",
-    status: "Não respondida",
+    status: adm ? "Resposta satisfatória" : "Não respondida",
     curtidas: "3",
   },
   {
@@ -57,7 +61,7 @@ const placeholder = [
     textoReclamação:
       "A qualidade da merenda escolar é muito baixa, as crianças não estão se alimentando bem.",
     fotos: "",
-    status: "Não respondida",
+    status: adm ? "Resposta satisfatória" : "Não respondida",
     curtidas: "0",
   },
   {
@@ -79,7 +83,7 @@ const placeholder = [
     textoReclamação:
       "A limpeza da escola é inadequada, várias salas de aula sujas.",
     fotos: "[].",
-    status: "Não respondida",
+    status: adm ? "Resposta satisfatória" : "Não respondida",
     curtidas: "1",
   },
 ];
@@ -99,10 +103,20 @@ export default function Home() {
       <Header />
       <main className="block h-full ">
         <div className="mx-10 mt-20">
-          <h1 className="font-sans font-bold text-4xl text-gray-900 mb-2">
-            Minhas reclamações
-          </h1>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 w-full">
+          {!adm && (
+            <h1 className="font-sans font-bold text-3xl text-gray-900 mb-2">
+              Minhas reclamações
+            </h1>
+          )}
+          {adm && (
+            <h1 className="font-sans font-bold text-3xl text-gray-900 mb-2">
+              Reclamações recentes na{" "}
+              <span className="font-semibold font-sans text-blue-500">
+                EEEP Edson Queiroz
+              </span>
+            </h1>
+          )}
+          <div className="grid grid-cols-2 gap-x-4 h-72 overflow-y-scroll gap-y-2 w-full rounded-lg">
             {placeholder.map((rec) => {
               return (
                 <Reclamação
@@ -112,6 +126,21 @@ export default function Home() {
               );
             })}
           </div>
+          {adm && (
+            <h1 className="font-sans font-bold text-3xl text-gray-900 mb-2 mt-2">
+              Sua reputação é{" "}
+              <span className="font-semibold font-sans text-red-700">
+                Insatisfatória
+                <FontAwesomeIcon className="ml-2 text-red-700" icon={faAngry} />
+              </span>
+              <p className="font-sans font-medium text-2xl text-gray-900 mb-2 mt-2">
+                <span className="font-sans font-semibold text-red-700">
+                  87,6%
+                </span>{" "}
+                das reclamações insatisfatórias.
+              </p>
+            </h1>
+          )}
         </div>
       </main>
       <MobileNav />
