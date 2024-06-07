@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import Skeleton from "react-loading-skeleton";
 
 export function ModalReclamação(props: {
   setModalAberto: Function;
@@ -37,7 +38,14 @@ export function ModalReclamação(props: {
                   <img
                     alt=""
                     src={`/arquivos/${foto}`}
-                    className="absolute top-0 left-0 w-full h-full object-cover rounded-lg shadow-md"
+                    className="absolute z-10 top-0 left-0 w-full h-full object-cover rounded-lg shadow-md"
+                    key={Date.now()}
+                  />
+                  <Skeleton
+                    baseColor="#ccc"
+                    highlightColor="#ddd"
+                    className="w-full h-full z-0 bottom-1 absolute"
+                    borderRadius="0.5rem"
                   />
                 </div>
               </div>
@@ -55,11 +63,19 @@ export function ModalReclamação(props: {
           >
             {props.reclamação?.fotos.map((foto: string, index: number) => (
               <SwiperSlide key={index}>
-                <div className="bg-gray-300 flex rounded-lg h-72">
+                <div className="bg-red-300 rounded-lg h-72">
                   <img
                     alt=""
                     src={`/arquivos/${foto}`}
-                    className="w-full h-full object-cover rounded-lg shadow-md"
+                    className="w-full h-full z-20 relative object-cover rounded-lg shadow-md"
+                    key={Date.now()}
+                  />
+                  <Skeleton
+                    baseColor="#ccc"
+                    highlightColor="#ddd"
+                    containerClassName="flex-1 w-full h-full z-0 absolute bottom-9 rounded-lg"
+                    className="w-full h-full z-10 bottom-0"
+                    borderRadius="0.5rem"
                   />
                 </div>
               </SwiperSlide>
