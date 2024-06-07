@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Item } from "../interfaces";
+import { useState } from "react";
 
 export const ModalNovaReclamação: FC<{
   items: Item[];
@@ -7,6 +8,7 @@ export const ModalNovaReclamação: FC<{
   erro: string | undefined | null;
   setModalAberto: Function;
 }> = (props) => {
+  const [reclamaçãoEnviada, setEnviada] = useState(false);
   const [modalAberto, setModalAberto] = [
     props.modalAberto,
     props.setModalAberto,
@@ -15,6 +17,9 @@ export const ModalNovaReclamação: FC<{
     JSON.stringify(props.items)
   );
   items.sort((a, b) => a.name.localeCompare(b.name));
+  useEffect(() => {
+    setEnviada(false);
+  }, []);
   return (
     <div
       onClick={(event) => {
@@ -30,6 +35,7 @@ export const ModalNovaReclamação: FC<{
       } absolute transition-opacity duration-300 backdrop-blur-md z-10 w-full h-full justify-center items-center flex`}
     >
       <form
+        onSubmit={() => setEnviada(true)}
         method="POST"
         action="/api/novaReclamacao"
         id="modal"
@@ -115,11 +121,12 @@ export const ModalNovaReclamação: FC<{
         </label>
         <div className="w-full items-center justify-center flex">
           <button
-            type="submit"
+            disabled={reclamaçãoEnviada}
             id="botão"
-            className="bg-blue-500 text-lg text-white font-sans w-64 mt-4 h-9 self-center mx-auto rounded-xl font-bold hover:scale-105 hover:bg-[#488cf9] ease-in-out duration-300"
+            type={reclamaçãoEnviada ? "button" : "submit"}
+            className="bg-blue-500 text-lg disabled:bg-slate-400 disabled:cursor-wait text-white font-sans w-64 mt-4 h-9 self-center mx-auto rounded-xl font-bold hover:scale-105 hover:bg-[#488cf9] ease-in-out duration-300"
           >
-            Enviar
+            {reclamaçãoEnviada ? "Enviando..." : "Enviar"}
           </button>
         </div>
         <span className="text-red-500 w-full block text-center font-sans font-medium">

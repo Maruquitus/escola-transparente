@@ -48,10 +48,6 @@ async function getDB() {
   return null;
 }
 
-async function contarDocs() {
-  return await reclamações.countDocuments({});
-}
-
 export async function checkCurtida(
   usuárioId: ObjectId,
   reclamaçãoId: ObjectId
@@ -144,6 +140,7 @@ function validarSenha(senha: string): boolean {
 export async function autenticarUsuário(usuário: string, senha: string) {
   const usuárioDoc = await getUsuário(usuário);
   const usuárioExiste = usuárioDoc != null;
+  const msg = "Usuário e/ou senha inválidos!";
   if (usuárioExiste) {
     //Checar hash da senha
     const hash = await hashSenha(senha);
@@ -151,10 +148,10 @@ export async function autenticarUsuário(usuário: string, senha: string) {
     if (hash === hashCadastrado) {
       return usuárioDoc;
     } else {
-      return Error("Senha inválida!");
+      return Error(msg);
     }
   } else {
-    return Error("Usuário não cadastrado!");
+    return Error(msg);
   }
 }
 

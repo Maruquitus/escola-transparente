@@ -20,12 +20,16 @@ export default function Landing() {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setErro(searchParams.get("erro"));
-    if (searchParams.get("sucesso") === "true" && !alertaExibido) {
+    if (
+      searchParams.get("sucesso") === "true" &&
+      !alertaExibido &&
+      !modalAberto
+    ) {
       setExibido(true);
       alert("Reclamação feita com sucesso!");
     }
     if (searchParams.get("erro") !== null) setModalAberto(true);
-  }, [location.search, alertaExibido]);
+  }, [location.search, alertaExibido, modalAberto]);
 
   return (
     <div className="w-full h-full flex-col flex">
@@ -47,8 +51,8 @@ export default function Landing() {
             </h2>
             <button
               onClick={() => {
-                setExibido(false);
                 setModalAberto(true);
+                setExibido(false);
               }}
               className="h-10 w-48 ml-6 mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white"
             >
