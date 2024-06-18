@@ -15,6 +15,7 @@ export default function Landing() {
   const [segurancaCarregada, setSegurancaCarregada] = useState(false);
   const [anonimoCarregada, setAnonimoCarregada] = useState(false);
 
+  // Ajustar a responsividade
   return (
     <div className="w-full h-full flex-col flex">
       <Header />
@@ -107,7 +108,7 @@ export default function Landing() {
             )}
             <img
               alt="Funcionamento"
-              className="z-0 select-none transition-opacity duration-300 md:ml-20 w-full h-auto mx-auto md:h-[21rem] my-auto"
+              className="z-0 select-none transition-opacity duration-300 w-full h-auto mx-auto md:h-[21rem] my-auto"
               src={Funcionamento}
               style={{ opacity: funcionamentoCarregada ? "1" : "0" }}
               onLoad={() => {
@@ -171,7 +172,7 @@ export default function Landing() {
             )}
             <img
               alt="Anonimato"
-              className="z-0 select-none transition-opacity duration-300 md:ml-20 w-full h-auto mx-auto md:h-[21rem] my-auto"
+              className="z-0 select-none transition-opacity duration-300 w-full h-auto mx-auto md:h-[21rem] my-auto"
               src={Anonimo}
               style={{ opacity: anonimoCarregada ? "1" : "0" }}
               onLoad={() => {
