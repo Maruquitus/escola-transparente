@@ -99,14 +99,24 @@ function hashSenha(senha: string) {
   });
 }
 
+export async function getReclamaçõesUsuário(usuário: ObjectId) {
+  return reclamações.find({ usuário: usuário }).toArray();
+}
+
+export async function removerReclamação(id: ObjectId) {
+  return await reclamações.deleteOne({ _id: id });
+}
+
 export async function novaReclamação(
   escola: string,
   título: string,
   textoReclamação: string,
   fotos: string[],
+  idUsuário: ObjectId,
   cidadeId: number = 2303501
 ) {
   let dados = {
+    usuário: idUsuário,
     cidadeId: cidadeId,
     escola: escola.toUpperCase(),
     título: título,

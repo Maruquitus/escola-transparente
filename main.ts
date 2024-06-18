@@ -7,9 +7,11 @@ import {
   limparImagens,
   mostrarReclamações,
   getReclamaçõesEscola,
+  getReclamaçõesUsuário,
   curtir,
   descurtir,
   checkCurtida,
+  removerReclamação,
 } from "./db";
 import { download, uploadFiles, getListFiles } from "./upload";
 import { Escola } from "./client/src/interfaces";
@@ -226,11 +228,6 @@ app.post(
       curtir(new ObjectId(req.user.id), new ObjectId(req.params.reclamacaoid));
       res.status(200).end();
     }
-
-    // Validar autenticação do usuário e criar uma lista na bd das curtidas - quem deu e onde deu (lá ele)
-    // Talvez fazer uma coleção só de curtidas. Parece pertinente
-    // Pegar as variáveis não usadas e trocar por _ pra ficar bonitinho
-    // Unrelated: adicionar barra de pesquisa na página das escolas tbm (talvez deixar o get das escolas no componente de search, sla)
   }
 );
 
@@ -295,11 +292,31 @@ app.get("/api/escolas", async (req: Request, res: Response) => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+// Apagar reclamação
+app.post(
+  "/api/apagarReclamacao/:id",
+  async (req: RequestAutenticado, res: Response) => {
+    const idUsuário = req.user?.id;
+    if (!idUsuário) {
+      return res.status(400).send("Faça login e tente novamente.");
+    } else {
+      const r = await removerReclamação(new ObjectId(req.params.id));
+      if (r.deletedCount === 1)
+        return res.status(200).send("Reclamação removida com sucesso!");
+      else return res.status(400).send("Nenhuma reclamação removida!");
+    }
+  }
+);
+
 // Nova reclamação
 app.post(
   "/api/novaReclamacao",
   upload.array("fotos", 3),
-  async (req: Request, res: Response) => {
+  async (req: RequestAutenticado, res: Response) => {
+    const idUsuário = req.user?.id;
+    if (!idUsuário) {
+      return res.status(400).send("Faça login e tente novamente.");
+    }
     try {
       const [escola, título, textoReclamacao] = [
         req.body.escola,
@@ -337,7 +354,8 @@ app.post(
           escola,
           título,
           textoReclamacao,
-          fotos
+          fotos,
+          idUsuário
         );
         if (resultado instanceof Error) {
           return res
@@ -353,6 +371,16 @@ app.post(
     } catch (error: any) {
       return res.status(500).send(error.message);
     }
+  }
+);
+
+// Get reclamações do usuário
+app.get(
+  "/api/reclamacoesUsuario",
+  async (req: RequestAutenticado, res: Response) => {
+    const usuárioId = req.user?.id;
+    if (!usuárioId) return res.status(400).send("Usuário não logado.");
+    return res.status(200).json(await getReclamaçõesUsuário(usuárioId));
   }
 );
 

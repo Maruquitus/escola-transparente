@@ -65,22 +65,32 @@ export const MobileNav: FC = () => {
           <div
             className={`my-auto w-1/2 h-full flex items-center border-l border-blue-600`}
           >
-            <h2
-              onClick={async () => {
-                fetch("/api/sair", { method: "POST" }).then(
-                  async (res: Response) => {
-                    if (res.status === 200) {
-                      window.location.reload();
-                      navigate("/");
+            {pathname !== "/home" && (
+              <h2
+                onClick={() => navigate("/home")}
+                className="text-white truncate w-full hover:scale-105 duration-300 text-center cursor-pointer font-sans font-semibold text-sm"
+              >
+                <i className="fa-solid fa-user mr-1 text-white"></i> {usuário}
+              </h2>
+            )}
+            {pathname === "/home" && (
+              <h2
+                onClick={async () => {
+                  fetch("/api/sair", { method: "POST" }).then(
+                    async (res: Response) => {
+                      if (res.status === 200) {
+                        window.location.reload();
+                        navigate("/");
+                      }
                     }
-                  }
-                );
-              }}
-              className="text-white truncate w-full hover:scale-105 duration-300 text-center cursor-pointer font-sans font-semibold text-sm"
-            >
-              <i className="fa-solid fa-right-from-bracket text-white"></i>{" "}
-              {usuário}
-            </h2>
+                  );
+                }}
+                className="text-white truncate w-full hover:scale-105 duration-300 text-center cursor-pointer font-sans font-semibold text-sm"
+              >
+                <i className="fa-solid fa-right-from-bracket text-white"></i>{" "}
+                Sair
+              </h2>
+            )}
           </div>
         )}
       </div>

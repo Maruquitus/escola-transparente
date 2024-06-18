@@ -47,9 +47,12 @@ export const carregarEscolas = async () => {
     });
 };
 
-export const procurarEscola = (nome: string, escolas: Escola[]) => {
+export const procurarEscola = async (nome: string, escolas?: Escola[]) => {
+  if (escolas === undefined) {
+    escolas = await carregarEscolas();
+  }
   for (const escola of escolas) {
-    if (nome === formatarNome(escola.nome)) {
+    if (formatarNome(nome) === formatarNome(escola.nome)) {
       return escola;
     }
   }

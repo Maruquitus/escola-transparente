@@ -16,12 +16,12 @@ export default function Cadastro() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    setErro(searchParams.get('erro'));
+    setErro(searchParams.get("erro"));
   }, [location.search]);
 
   useEffect(() => {
     if (logado) {
-      navigate('/home');
+      navigate("/home");
     }
   }, [logado, navigate]);
 
@@ -43,7 +43,7 @@ export default function Cadastro() {
                   required
                   name="username"
                   id="usuário"
-                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
+                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-3"
                   type="text"
                 />
               </div>
@@ -55,7 +55,7 @@ export default function Cadastro() {
                   required
                   name="password"
                   id="senha"
-                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-1"
+                  className="text-black font-sans h-10 bg-slate-100 shadow-sm rounded-md outline-0 font-medium p-3"
                   type={senhaVisível ? "text" : "password"}
                 />
               </div>

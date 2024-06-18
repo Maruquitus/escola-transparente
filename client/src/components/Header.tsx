@@ -83,12 +83,11 @@ export const Header: FC<{
               className="self-center pointer-events-auto mt-10 w-full md:mt-0 bottom-0.5 mx-auto"
               items={items}
               fuseOptions={{ keys: ["name"] }}
-              onSelect={(item: Item) => {
-                const escola = procurarEscola(item.name, escolas);
-                console.log(escolas);
+              onSelect={async (item: Item) => {
+                const escola = await procurarEscola(item.name, escolas);
                 if (escola) {
                   navigate("/escola", {
-                    state: { escola: procurarEscola(item.name, escolas) },
+                    state: { escola: await procurarEscola(item.name, escolas) },
                   });
                 }
               }}
@@ -101,22 +100,32 @@ export const Header: FC<{
       </div>
       {logado && (
         <div className={`ml-auto h-8 hidden md:flex`}>
-          <h2
-            onClick={async () => {
-              fetch("/api/sair", { method: "POST" }).then(
-                async (res: Response) => {
-                  if (res.status === 200) {
-                    window.location.reload();
-                    navigate("/");
+          {pathname === "/home" && (
+            <h2
+              onClick={async () => {
+                fetch("/api/sair", { method: "POST" }).then(
+                  async (res: Response) => {
+                    if (res.status === 200) {
+                      window.location.reload();
+                      navigate("/");
+                    }
                   }
-                }
-              );
-            }}
-            className="text-white font-sans hover:scale-105 duration-300 cursor-pointer font-semibold truncate text-lg mt-1.5"
-          >
-            <i className="fa-solid fa-right-from-bracket text-white"></i>{" "}
-            {usuário}
-          </h2>
+                );
+              }}
+              className="text-white font-sans hover:scale-105 duration-300 cursor-pointer font-semibold truncate text-lg mt-1.5"
+            >
+              <i className="fa-solid fa-right-from-bracket mr-1 text-white"></i>{" "}
+              Sair
+            </h2>
+          )}
+          {pathname !== "/home" && (
+            <h2
+              onClick={() => navigate("/home")}
+              className="text-white font-sans hover:scale-105 duration-300 cursor-pointer font-semibold truncate text-lg mt-1.5"
+            >
+              <i className="fa-solid fa-user mr-1 text-white"></i> {usuário}
+            </h2>
+          )}
         </div>
       )}
       {!logado && (

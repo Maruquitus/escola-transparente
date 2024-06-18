@@ -1,9 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faImages } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faHeartOutline } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as faHeartOutline,
+  faTrashCan,
+} from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 import Badge from "./Badge";
 import { formatarNome } from "../functions";
+import { procurarEscola } from "../functions";
+import { useNavigate } from "react-router-dom";
 
 export function Reclamação(props: {
   usuário?: string;
@@ -12,6 +17,7 @@ export function Reclamação(props: {
   setModalAberto?: Function;
   curtidas: number;
 }) {
+  const navigate = useNavigate();
   const telaHome: boolean = !props.setModalAberto || !props.setReclamação;
   const handleCurtida = async () => {
     if (!telaHome) {
@@ -46,10 +52,36 @@ export function Reclamação(props: {
   }, []);
   return (
     <div
+      onClick={async () => {
+        if (telaHome) {
+          const escola = await procurarEscola(props.reclamação.escola);
+          navigate("/escola", {
+            state: { escola: escola },
+          });
+        }
+      }}
       className={`${
-        telaHome ? "p-5 pb-0 hover:scale-95 hover:cursor-pointer" : "p-5"
-      } border w-full select-none border-gray-100 bg-blue-500 shadow-md rounded-lg duration-300`}
+        telaHome ? "p-5 pb-0 hover:bg-blue-400 hover:cursor-pointer" : "p-5"
+      } border w-full h-fit select-none border-gray-100 bg-blue-500 shadow-md rounded-lg duration-300`}
     >
+      {telaHome && (
+        <FontAwesomeIcon
+          onClick={async (e) => {
+            e.stopPropagation();
+            const r = await fetch(
+              `/api/apagarReclamacao/${props.reclamação._id}`,
+              {
+                method: "POST",
+              }
+            );
+            if (r.status === 200) window.location.reload();
+          }}
+          icon={faTrashCan}
+          size="lg"
+          color="white"
+          className="hover:scale-105 active:scale-105 hover:cursor-pointer duration-300 float-end mt-1"
+        />
+      )}
       {!telaHome && props.reclamação.fotos.length > 0 && (
         <FontAwesomeIcon
           onClick={() => {

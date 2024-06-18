@@ -41,9 +41,9 @@ export default function Pesquisa() {
             className="self-center mt-10 w-11/12 lg:mt-0 bottom-0.5 mx-auto"
             items={items}
             fuseOptions={{ keys: ["name"] }}
-            onSelect={(item: Item) => {
+            onSelect={async (item: Item) => {
               navigate("/escola", {
-                state: { escola: procurarEscola(item.name, escolas) },
+                state: { escola: await procurarEscola(item.name, escolas) },
               });
             }}
             formatResult={(item: Item) => {

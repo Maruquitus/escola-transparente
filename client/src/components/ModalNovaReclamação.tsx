@@ -35,8 +35,10 @@ export const ModalNovaReclamação: FC<{
         onSubmit={async (e) => {
           setEnviada(true);
           e.preventDefault();
-          await props.submit(new FormData(e.currentTarget));
-          window.location.reload();
+          const res = await props.submit(new FormData(e.currentTarget));
+          if (res.status === 200) window.location.reload();
+          else setEnviada(false);
+          alert("Reclamação feita com sucesso!");
         }}
         id="modal"
         className="w-full sm:w-2/3 lg:w-1/2 rounded-lg p-10 bg-white shadow-gray-300 shadow-lg mx-auto"
