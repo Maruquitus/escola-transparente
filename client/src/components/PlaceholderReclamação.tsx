@@ -1,5 +1,5 @@
 import Skeleton from "react-loading-skeleton";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function PlaceholderReclamação() {

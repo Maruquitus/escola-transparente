@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { MobileNav } from "../components/MobileNav";
 import { Reclamação } from "../components/Reclamação";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngry, faSmile } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { PlaceholderReclamação } from "../components/PlaceholderReclamação";
 import SVG from "../assets/thinking.svg";
 import { placeholder } from "../placeholderData";
@@ -18,8 +19,14 @@ export default function Home() {
     adm ? placeholder : []
   );
   const [carregado, setCarregado] = useState(adm);
+  const [imagemCarregada, setImagemCarregada] = useState(false);
 
   useEffect(() => {
+    const img = new Image();
+    img.src = SVG;
+    img.onload = () => {
+      setImagemCarregada(true);
+    };
     if (!adm) {
       fetch("/api/reclamacoesUsuario").then(async (res) => {
         if (res.status === 200) {
@@ -68,28 +75,39 @@ export default function Home() {
                   />
                 </p>
               </div>
-              <img
-                className="ml-auto w-full mt-10 md:-mt-32 md:w-7/12"
-                src={SVG}
-                alt=""
-              />
+              <div className="ml-auto h-full mt-10 md:-mt-[7.75rem] md:w-8/12">
+                {!imagemCarregada && (
+                  <Skeleton
+                    width={"90%"}
+                    height={"100%"}
+                    borderRadius={20}
+                    className="aspect-[1.8] ml-20 relative"
+                  />
+                )}
+                <img
+                  className="h-full w-full"
+                  src={SVG}
+                  alt="Thinking"
+                  style={{ opacity: imagemCarregada ? "1" : "0" }}
+                  onLoad={() => setImagemCarregada(true)}
+                />
+              </div>
             </div>
           )}
-          {reclamações?.length > 0 && carregado && (
+          {(reclamações?.length > 0 || !carregado) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 h-72 overflow-y-scroll gap-y-2 w-full rounded-lg">
               {!carregado &&
-                Array.from({ length: 4 }).map(() => {
-                  return <PlaceholderReclamação />;
-                })}
+                Array.from({ length: 4 }).map((_, index) => (
+                  <PlaceholderReclamação key={index} />
+                ))}
               {carregado &&
-                reclamações.map((rec) => {
-                  return (
-                    <Reclamação
-                      curtidas={parseInt(rec.curtidas)}
-                      reclamação={rec}
-                    />
-                  );
-                })}
+                reclamações.map((rec) => (
+                  <Reclamação
+                    key={rec.id}
+                    curtidas={parseInt(rec.curtidas)}
+                    reclamação={rec}
+                  />
+                ))}
             </div>
           )}
           {adm && (

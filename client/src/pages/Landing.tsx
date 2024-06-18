@@ -10,6 +10,11 @@ import Anonimo from "../assets/anonimo.svg";
 
 export default function Landing() {
   const [imagemCarregada, setImagemCarregada] = useState(false);
+  const [plataformaCarregada, setPlataformaCarregada] = useState(false);
+  const [funcionamentoCarregada, setFuncionamentoCarregada] = useState(false);
+  const [segurancaCarregada, setSegurancaCarregada] = useState(false);
+  const [anonimoCarregada, setAnonimoCarregada] = useState(false);
+
   return (
     <div className="w-full h-full flex-col flex">
       <Header />
@@ -17,7 +22,7 @@ export default function Landing() {
         {/* Parte inicial */}
         <section className="md:flex block w-full">
           <div className="md:w-4/5 w-full">
-            <h1 className="md:text-5xl text-3xl ml-6 mt-40 font-semibold font-sans text-gray-900">
+            <h1 className="md:text-5xl text-3xl ml-6 md:mt-40 mt-28 font-semibold font-sans text-gray-900">
               Seja bem-vindo à <br className="md:inline hidden" /> Escola{" "}
               <span className="font-semibold font-sans text-blue-500">
                 Transparente
@@ -49,7 +54,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="md:flex md:w-full w-4/5 mx-auto flex-row-reverse block">
+        <section className="md:flex mx-auto flex-row-reverse md:w-full w-11/12 block">
           <div className="md:w-4/5 my-auto mx-auto md:mr-20">
             <h1 className="md:text-4xl text-2xl font-semibold font-sans text-gray-900 md:text-right text-center w-full">
               Por que usar a plataforma?
@@ -62,22 +67,29 @@ export default function Landing() {
             </h2>
           </div>
           <div className="w-full h-full py-9 select-none text-center items-center align-middle">
+            {!plataformaCarregada && (
+              <Skeleton
+                width={"90%"}
+                borderRadius={20}
+                className="mx-auto mt-10 aspect-[1.8] relative w-32"
+              />
+            )}
             <img
               alt="Feedback"
               className="z-0 select-none transition-opacity duration-300 md:ml-20 w-full h-auto mx-auto md:h-[21rem] my-auto"
               src={Plataforma}
-              style={{ opacity: imagemCarregada ? "1" : "0" }}
+              style={{ opacity: plataformaCarregada ? "1" : "0" }}
               onLoad={() => {
-                setImagemCarregada(true);
+                setPlataformaCarregada(true);
               }}
             />
           </div>
         </section>
 
-        <section className="md:flex block w-4/5 mx-auto">
+        <section className="md:flex block md:w-full w-11/12 mx-auto">
           <div className="md:w-4/5 w-full my-auto mx-auto md:ml-20">
             <h1 className="md:text-4xl text-2xl font-semibold font-sans text-gray-900 md:text-left text-center w-full">
-              Como funciona
+              Como funciona?
             </h1>
             <h2 className="md:text-2xl text-base md:text-left text-center font-sans mt-2 font-normal text-gray-500">
               Todas as suas denúncias são publicadas, permitindo transparência e
@@ -86,19 +98,26 @@ export default function Landing() {
             </h2>
           </div>
           <div className="w-full h-full py-9 select-none text-center items-center align-middle">
+            {!funcionamentoCarregada && (
+              <Skeleton
+                width={"90%"}
+                borderRadius={20}
+                className="mx-auto mt-10 aspect-[1.8] relative w-32"
+              />
+            )}
             <img
               alt="Funcionamento"
               className="z-0 select-none transition-opacity duration-300 md:ml-20 w-full h-auto mx-auto md:h-[21rem] my-auto"
               src={Funcionamento}
-              style={{ opacity: imagemCarregada ? "1" : "0" }}
+              style={{ opacity: funcionamentoCarregada ? "1" : "0" }}
               onLoad={() => {
-                setImagemCarregada(true);
+                setFuncionamentoCarregada(true);
               }}
             />
           </div>
         </section>
 
-        <section className="md:flex flex-row-reverse block w-4/5 mx-auto">
+        <section className="md:flex flex-row-reverse block md:w-full w-11/12 mx-auto">
           <div className="md:w-4/5 w-full my-auto mx-auto md:mr-20">
             <h1 className="md:text-4xl text-2xl font-semibold font-sans text-gray-900 md:text-right text-center w-full">
               Segurança
@@ -111,19 +130,26 @@ export default function Landing() {
             </h2>
           </div>
           <div className="w-full h-full py-9 select-none text-center items-center align-middle">
+            {!segurancaCarregada && (
+              <Skeleton
+                width={"90%"}
+                borderRadius={20}
+                className="mx-auto mt-10 aspect-[1.8] relative w-32"
+              />
+            )}
             <img
               alt="Segurança"
               className="z-0 select-none transition-opacity duration-300 md:ml-20 w-full h-auto mx-auto md:h-[21rem] my-auto"
               src={Seguranca}
-              style={{ opacity: imagemCarregada ? "1" : "0" }}
+              style={{ opacity: segurancaCarregada ? "1" : "0" }}
               onLoad={() => {
-                setImagemCarregada(true);
+                setSegurancaCarregada(true);
               }}
             />
           </div>
         </section>
 
-        <section className="md:flex block w-4/5 mx-auto">
+        <section className="md:flex block md:w-full w-11/12 mx-auto">
           <div className="md:w-4/5 w-full my-auto mx-auto md:ml-20">
             <h1 className="md:text-4xl text-2xl font-semibold font-sans text-gray-900 md:text-left text-center w-full">
               Denúncias anônimas
@@ -136,13 +162,20 @@ export default function Landing() {
             </h2>
           </div>
           <div className="w-full h-full py-9 select-none text-center items-center align-middle">
+            {!anonimoCarregada && (
+              <Skeleton
+                width={"90%"}
+                borderRadius={20}
+                className="mx-auto mt-10 aspect-[1.8] relative w-32"
+              />
+            )}
             <img
-              alt="Funcionamento"
+              alt="Anonimato"
               className="z-0 select-none transition-opacity duration-300 md:ml-20 w-full h-auto mx-auto md:h-[21rem] my-auto"
               src={Anonimo}
-              style={{ opacity: imagemCarregada ? "1" : "0" }}
+              style={{ opacity: anonimoCarregada ? "1" : "0" }}
               onLoad={() => {
-                setImagemCarregada(true);
+                setAnonimoCarregada(true);
               }}
             />
           </div>
@@ -151,7 +184,7 @@ export default function Landing() {
       {/* Painel mobile */}
       <MobileNav />
 
-      <footer className="bottom-1 text-center w-full">
+      <footer className="mb-16 md:mb-1 text-center w-full">
         <a
           className="text-center w-full text-gray-500 font-medium font-sans"
           href="https://br.freepik.com/vetores-gratis/alunos-aprendendo-lingua-estrangeira-com-vocabulario_11235885.htm"
