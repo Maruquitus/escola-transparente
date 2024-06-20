@@ -185,7 +185,7 @@ export default function Landing() {
       {/* Painel mobile */}
       <MobileNav />
 
-      <footer className="mb-16 md:mb-1 text-center w-full">
+      <footer className="mb-16 md:mb-1 text-center w-4/5 mx-auto">
         <a
           className="text-center w-full text-gray-500 font-medium font-sans"
           href="https://br.freepik.com/vetores-gratis/alunos-aprendendo-lingua-estrangeira-com-vocabulario_11235885.htm"
