@@ -109,7 +109,7 @@ export const Header: FC<{
         <Skeleton
           baseColor="rgb(96 165 250)"
           highlightColor="rgb(147 197 253)"
-          containerClassName="ml-auto w-60 my-auto -my-2 md:block hidden"
+          containerClassName="ml-auto w-60 my-auto -mt-2 -mb-2 md:block hidden"
           className="h-12"
         />
       )}
