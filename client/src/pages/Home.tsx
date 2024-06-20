@@ -19,33 +19,39 @@ export default function Home() {
   const [carregado, setCarregado] = useState(false);
   const [imagemCarregada, setImagemCarregada] = useState(false);
 
-  const handleSetADM = (adm: boolean) => {
+  const handleSetADM = (d: boolean) => {
     if (primeiraVez) primeiraVez = false;
-    setADM(adm);
+    setADM(d);
     setCarregado(false);
-    setTimeout(carregarReclamações, 500);
+    setTimeout(() => {
+      carregarReclamações(d);
+    }, 500);
   };
 
-  const carregarReclamações = useCallback(async () => {
-    if (!adm) {
-      await fetch(
-        encodeURI(`/api/reclamacoes/2303501/EEEP EDSON QUEIROZ`)
-      ).then(async (res) => {
-        if (res.status === 200) {
-          const resultado = await res.json();
-          setReclamações(resultado);
-        }
-      });
-    } else {
-      await fetch("/api/reclamacoesUsuario").then(async (res) => {
-        if (res.status === 200) {
-          const resultado = await res.json();
-          setReclamações(resultado);
-        }
-      });
-    }
-    setCarregado(true);
-  }, [adm]);
+  const carregarReclamações = useCallback(
+    async (ovAdm?: boolean) => {
+      let éADM = ovAdm === undefined ? adm : ovAdm;
+      if (éADM) {
+        await fetch(
+          encodeURI(`/api/reclamacoes/2303501/EEEP EDSON QUEIROZ`)
+        ).then(async (res) => {
+          if (res.status === 200) {
+            const resultado = await res.json();
+            setReclamações(resultado);
+          }
+        });
+      } else {
+        await fetch("/api/reclamacoesUsuario").then(async (res) => {
+          if (res.status === 200) {
+            const resultado = await res.json();
+            setReclamações(resultado);
+          }
+        });
+      }
+      setCarregado(true);
+    },
+    [adm]
+  );
 
   useEffect(() => {
     const img = new Image();
