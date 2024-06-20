@@ -134,7 +134,19 @@ export default function PáginaEscola() {
           {reclamações == null && <PlaceholderReclamação />}
           {reclamações &&
             reclamações
-              .sort((a, b) => b.curtidas - a.curtidas)
+              .sort((a, b) => {
+                const aÉdoUsuário = a.usuário === usuário.id;
+                const bÉdoUsuário = b.usuário === usuário.id;
+
+                if (aÉdoUsuário && !bÉdoUsuário) {
+                  return -1;
+                }
+                if (!aÉdoUsuário && bÉdoUsuário) {
+                  return 1;
+                }
+
+                return b.curtidas - a.curtidas;
+              })
               .map((rec: any) => {
                 return (
                   <Reclamação

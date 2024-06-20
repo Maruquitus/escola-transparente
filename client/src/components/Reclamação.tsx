@@ -61,7 +61,9 @@ export function Reclamação(props: {
         }
       }}
       className={`${
-        telaHome ? "p-5 pb-0 hover:bg-blue-400 hover:cursor-pointer" : "p-5"
+        telaHome
+          ? "p-5 pb-0 h-fit hover:bg-blue-400 hover:cursor-pointer"
+          : "p-5"
       } border w-full select-none border-gray-100 bg-blue-500 shadow-md rounded-lg duration-300`}
     >
       {props.adm && (
