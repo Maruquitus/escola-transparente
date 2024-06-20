@@ -5,6 +5,41 @@ export const getAPIStatus = async () => {
   return res.status;
 };
 
+export function dataRelativa(dataISO: string): string {
+  const dataFornecida = new Date(dataISO);
+  const dataAtual = new Date();
+
+  const segundos = Math.floor(
+    (dataAtual.getTime() - dataFornecida.getTime()) / 1000
+  );
+  const minutos = Math.floor(segundos / 60);
+  const horas = Math.floor(minutos / 60);
+  const dias = Math.floor(horas / 24);
+  const semanas = Math.floor(dias / 7);
+  const meses = Math.floor(dias / 30); // Aproximação de meses
+  const anos = Math.floor(dias / 365); // Aproximação de anos
+
+  if (segundos < 60) {
+    return "Há poucos segundos";
+  } else if (minutos < 60) {
+    return `Há ${minutos} minuto${minutos > 1 ? "s" : ""}`;
+  } else if (horas < 24) {
+    return `Há ${horas} hora${horas > 1 ? "s" : ""}`;
+  } else if (dias < 2) {
+    return `Ontem`;
+  } else if (dias < 3) {
+    return `Anteontem`;
+  } else if (semanas < 2) {
+    return `Há ${dias} dia${dias > 1 ? "s" : ""}`;
+  } else if (meses < 12) {
+    return `Há ${semanas} semana${semanas > 1 ? "s" : ""}`;
+  } else if (anos < 2) {
+    return `Há ${meses} mês${meses > 1 ? "es" : ""}`;
+  } else {
+    return `Há ${anos} ano${anos > 1 ? "s" : ""}`;
+  }
+}
+
 export function formatarNumeroTelefone(numeroTelefone: string) {
   if (
     numeroTelefone === null ||

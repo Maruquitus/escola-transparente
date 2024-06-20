@@ -4,27 +4,34 @@ import { useLocation } from "react-router-dom";
 import { routeTitles } from "../routeTitles";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { Escola, Item } from "../interfaces";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Skeleton from "react-loading-skeleton";
 import {
   procurarEscola,
   converterEscolas,
   carregarEscolas,
   checarAutenticação,
 } from "../functions";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 export const Header: FC<{
   children?: ReactNode;
   customClass?: string;
   escolas?: Escola[];
+  adm?: boolean;
+  handleSetAdm?: Function;
 }> = (props) => {
   const pathname: string = useLocation().pathname;
   const navigate = useNavigate();
   const título: string = routeTitles[pathname];
   const [logado, setLogado] = useState(false);
   const [usuário, setUsuário] = useState();
+  const [carregado, setCarregado] = useState(false);
 
   useEffect(() => {
     checarAutenticação().then(async (res: [boolean, any]) => {
       setLogado(res[0]);
+      setCarregado(true);
       if (res[0]) setUsuário(res[1].username);
     });
     if (props.escolas !== undefined) {
@@ -98,25 +105,50 @@ export const Header: FC<{
           </div>
         </div>
       </div>
-      {logado && (
+      {!carregado && (
+        <Skeleton
+          baseColor="rgb(96 165 250)"
+          highlightColor="rgb(147 197 253)"
+          containerClassName="ml-auto w-60 my-auto -my-2"
+          className="h-12"
+        />
+      )}
+      {logado && carregado && (
         <div className={`ml-auto h-8 hidden md:flex`}>
           {pathname === "/home" && (
-            <h2
-              onClick={async () => {
-                fetch("/api/sair", { method: "POST" }).then(
-                  async (res: Response) => {
-                    if (res.status === 200) {
-                      window.location.reload();
-                      navigate("/");
+            <div className="flex space-x-3">
+              <button
+                onClick={() => {
+                  props.handleSetAdm?.(!props.adm);
+                }}
+                className={`rounded-md my-auto mt-1 flex font-sans font-semibold text-white w-8 h-8 ${
+                  props.adm
+                    ? "bg-white"
+                    : "bg-transparent border-solid border border-white"
+                } cursor-pointer`}
+              >
+                <FontAwesomeIcon
+                  className={"m-auto " + (props.adm && "text-slate-700")}
+                  icon={faUserTie}
+                />
+              </button>
+              <h2
+                onClick={async () => {
+                  fetch("/api/sair", { method: "POST" }).then(
+                    async (res: Response) => {
+                      if (res.status === 200) {
+                        navigate("/login");
+                        window.location.reload();
+                      }
                     }
-                  }
-                );
-              }}
-              className="text-white font-sans hover:scale-105 duration-300 cursor-pointer font-semibold truncate text-lg mt-1.5"
-            >
-              <i className="fa-solid fa-right-from-bracket mr-1 text-white"></i>{" "}
-              Sair
-            </h2>
+                  );
+                }}
+                className="text-white font-sans hover:scale-105 duration-300 cursor-pointer font-semibold truncate text-lg mt-1.5"
+              >
+                <i className="fa-solid fa-right-from-bracket mr-1 text-white"></i>{" "}
+                Sair
+              </h2>
+            </div>
           )}
           {pathname !== "/home" && (
             <h2
@@ -128,7 +160,7 @@ export const Header: FC<{
           )}
         </div>
       )}
-      {!logado && (
+      {!logado && carregado && (
         <div
           className={`ml-auto ${
             !props.children && "-mr-1"

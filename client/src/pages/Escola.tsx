@@ -105,15 +105,8 @@ export default function PáginaEscola() {
           <div className="ml-auto">
             <button
               onClick={() => {
-                fetch("/api/checkAutenticado").then(async (res) => {
-                  const logado = (await res.json())[0];
-                  if (res.status === 200 && logado) {
-                    setModalNRAberto(true);
-                    setExibido(false);
-                  } else {
-                    alert("Faça login para enviar uma reclamação!");
-                  }
-                });
+                setModalNRAberto(true);
+                setExibido(false);
               }}
               className="h-10 w-48 md:mt-4 select-none bg-blue-500 font-sans hover:bg-[#488cf9] duration-300 font-medium rounded-xl text-white"
             >

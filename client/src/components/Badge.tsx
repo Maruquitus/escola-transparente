@@ -1,5 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileImage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFileImage,
+  faUserPen as faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Badge(props: {
   texto: string;
@@ -11,8 +14,10 @@ export default function Badge(props: {
   if (props.tamanho === undefined) tamanho = 1;
   if (props.tipo === 1) {
     cor = props.texto.includes("Não") ? "bg-red-600" : "bg-green-500";
-  } else {
+  } else if (props.tipo === 2) {
     cor = "bg-blue-800";
+  } else {
+    cor = "bg-transparent border";
   }
   return (
     <div
@@ -25,8 +30,12 @@ export default function Badge(props: {
           tamanho === 1 ? "text-sm" : "text-md"
         } font-medium`}
       >
-        {props.tipo === 2 && (
-          <FontAwesomeIcon icon={faFileImage} color="white" className="mr-1" />
+        {props.tipo !== 1 && (
+          <FontAwesomeIcon
+            icon={props.tipo === 2 ? faFileImage : faUser}
+            color="white"
+            className="mr-1"
+          />
         )}
         {props.texto}
       </p>

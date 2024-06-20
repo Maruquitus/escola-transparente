@@ -314,9 +314,6 @@ app.post(
   upload.array("fotos", 3),
   async (req: RequestAutenticado, res: Response) => {
     const idUsuário = req.user?.id;
-    if (!idUsuário) {
-      return res.status(400).send("Faça login e tente novamente.");
-    }
     try {
       const [escola, título, textoReclamacao] = [
         req.body.escola,

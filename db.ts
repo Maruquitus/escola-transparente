@@ -112,11 +112,13 @@ export async function novaReclamação(
   título: string,
   textoReclamação: string,
   fotos: string[],
-  idUsuário: ObjectId,
+  idUsuário?: ObjectId,
   cidadeId: number = 2303501
 ) {
+  const data = new Date();
   let dados = {
     usuário: idUsuário,
+    data: data,
     cidadeId: cidadeId,
     escola: escola.toUpperCase(),
     título: título,

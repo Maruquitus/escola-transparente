@@ -1,17 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faImages } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faImages, faReply } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as faHeartOutline,
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 import Badge from "./Badge";
-import { formatarNome } from "../functions";
+import { dataRelativa, formatarNome } from "../functions";
 import { procurarEscola } from "../functions";
 import { useNavigate } from "react-router-dom";
 
 export function Reclamação(props: {
   usuário?: string;
+  adm?: boolean;
   reclamação: any;
   setReclamação?: Function;
   setModalAberto?: Function;
@@ -19,22 +20,21 @@ export function Reclamação(props: {
 }) {
   const navigate = useNavigate();
   const telaHome: boolean = !props.setModalAberto || !props.setReclamação;
-  const handleCurtida = async () => {
-    if (!telaHome) {
-      let sucesso = false;
-      sucesso = await fetch(
-        `/api/${curtido ? "descurtir" : "curtir"}/${props.reclamação._id}`,
-        {
-          method: "POST",
-        }
-      ).then((res) => {
-        return res.status === 200;
-      });
-      if (!sucesso) alert("Faça login para curtir uma reclamação!");
-      if (sucesso) {
-        setCurtido(!curtido);
-        setCurtidas(curtidas + (curtido ? -1 : 1));
+  const handleCurtida = async (e: any) => {
+    e.stopPropagation();
+    let sucesso = false;
+    sucesso = await fetch(
+      `/api/${curtido ? "descurtir" : "curtir"}/${props.reclamação._id}`,
+      {
+        method: "POST",
       }
+    ).then((res) => {
+      return res.status === 200;
+    });
+    if (!sucesso) alert("Faça login para curtir uma reclamação!");
+    if (sucesso) {
+      setCurtido(!curtido);
+      setCurtidas(curtidas + (curtido ? -1 : 1));
     }
   };
 
@@ -62,9 +62,18 @@ export function Reclamação(props: {
       }}
       className={`${
         telaHome ? "p-5 pb-0 hover:bg-blue-400 hover:cursor-pointer" : "p-5"
-      } border w-full h-fit select-none border-gray-100 bg-blue-500 shadow-md rounded-lg duration-300`}
+      } border w-full select-none border-gray-100 bg-blue-500 shadow-md rounded-lg duration-300`}
     >
-      {telaHome && (
+      {props.adm && (
+        <FontAwesomeIcon
+          onClick={(e) => e.stopPropagation()}
+          icon={faReply}
+          size="lg"
+          color="white"
+          className="hover:scale-105 active:scale-105 hover:cursor-pointer duration-300 float-end mt-1"
+        />
+      )}
+      {telaHome && !props.adm && (
         <FontAwesomeIcon
           onClick={async (e) => {
             e.stopPropagation();
@@ -98,7 +107,9 @@ export function Reclamação(props: {
       )}
       {telaHome && (
         <h2 className="font-medium font-sans text-lg text-white">
-          {formatarNome(props.reclamação.escola)}
+          {props.adm
+            ? dataRelativa(props.reclamação.data)
+            : formatarNome(props.reclamação.escola)}
         </h2>
       )}
       <h1
@@ -123,6 +134,10 @@ export function Reclamação(props: {
             }`}
           />
         )}
+        {props.reclamação?.usuário === props.usuário &&
+          props.usuário !== undefined && (
+            <Badge tipo={3} texto="Feita por você" />
+          )}
       </div>
       <div className="float-right -translate-y-6 flex items-center">
         <h2 className="font-semibold font-sans mr-1 w-5 h-6 text-right text-white">
