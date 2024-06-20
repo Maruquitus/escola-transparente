@@ -135,8 +135,8 @@ export default function PáginaEscola() {
           {reclamações &&
             reclamações
               .sort((a, b) => {
-                const aÉdoUsuário = a.usuário === usuário.id;
-                const bÉdoUsuário = b.usuário === usuário.id;
+                const aÉdoUsuário = a.usuário === usuário?.id;
+                const bÉdoUsuário = b.usuário === usuário?.id;
 
                 if (aÉdoUsuário && !bÉdoUsuário) {
                   return -1;
