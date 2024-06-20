@@ -55,7 +55,15 @@ export function formatarNumeroTelefone(numeroTelefone: string) {
     return "";
   }
 
-  return limpo.replace(/(\d{5})(\d{4})/, "$1-$2");
+  if (limpo.length === 8) {
+    return limpo.replace(/(\d{4})(\d{4})/, "$1-$2");
+  }
+
+  if (limpo.length === 9) {
+    return limpo.replace(/(\d{5})(\d{4})/, "$1-$2");
+  }
+
+  return limpo;
 }
 
 export const converterEscolas = (escolas: Escola[]): Item[] => {
