@@ -65,7 +65,7 @@ export default function PáginaEscola() {
       method: "POST",
     });
     const texto = await res.text();
-    if (res.status === 400) {
+    if (res.status === 400 || res.status === 500) {
       setErro(texto);
     } else {
       setModalNRAberto(false);

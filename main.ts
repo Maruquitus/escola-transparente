@@ -322,6 +322,19 @@ app.post(
       ];
       let fotos: string[] = [];
 
+      if (título.length < 10) {
+        throw new Error("Título muito curto!");
+      }
+      if (título.length > 50) {
+        throw new Error("Título muito longo!");
+      }
+      if (textoReclamacao.length < 5) {
+        throw new Error("Texto da reclamação muito curto!");
+      }
+      if (textoReclamacao.length > 200) {
+        throw new Error("Texto da reclamação muito longo!");
+      }
+
       if (Array.isArray(req.files) && req.files.length) {
         // Processar cada arquivo enviado
         for (const file of req.files) {
