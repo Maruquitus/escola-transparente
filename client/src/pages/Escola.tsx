@@ -145,7 +145,11 @@ export default function PáginaEscola() {
                   return 1;
                 }
 
-                return b.curtidas - a.curtidas;
+                if (b.curtidas !== a.curtidas) {
+                  return b.curtidas - a.curtidas;
+                }
+
+                return new Date(b.data).getTime() - new Date(a.data).getTime();
               })
               .map((rec: any) => {
                 return (

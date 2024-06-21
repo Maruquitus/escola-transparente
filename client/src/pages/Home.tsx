@@ -135,14 +135,19 @@ export default function Home() {
                   <PlaceholderReclamação key={index} />
                 ))}
               {carregado &&
-                reclamações.map((rec) => (
-                  <Reclamação
-                    adm={adm}
-                    key={rec.id}
-                    curtidas={parseInt(rec.curtidas)}
-                    reclamação={rec}
-                  />
-                ))}
+                reclamações
+                  .sort(
+                    (a, b) =>
+                      new Date(b.data).getTime() - new Date(a.data).getTime()
+                  )
+                  .map((rec) => (
+                    <Reclamação
+                      adm={adm}
+                      key={rec.id}
+                      curtidas={parseInt(rec.curtidas)}
+                      reclamação={rec}
+                    />
+                  ))}
             </div>
           )}
           {adm && !carregado && (
@@ -170,9 +175,9 @@ export default function Home() {
               </span>
               <p className="font-sans font-medium text-2xl text-gray-900 mb-2 mt-2">
                 <span className="font-sans font-semibold text-red-700">
-                  87,6%
+                  100%
                 </span>{" "}
-                das reclamações insatisfatórias.
+                das reclamações não respondidas.
               </p>
             </h1>
           )}
