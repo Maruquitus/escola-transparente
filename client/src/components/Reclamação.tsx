@@ -22,19 +22,14 @@ export function Reclamação(props: {
   const telaHome: boolean = !props.setModalAberto || !props.setReclamação;
   const handleCurtida = async (e: any) => {
     e.stopPropagation();
-    let sucesso = false;
-    sucesso = await fetch(
-      `/api/${curtido ? "descurtir" : "curtir"}/${props.reclamação._id}`,
-      {
-        method: "POST",
-      }
-    ).then((res) => {
-      return res.status === 200;
-    });
-    if (!sucesso) alert("Faça login para curtir uma reclamação!");
-    if (sucesso) {
+    const url = `/api/${curtido ? "descurtir" : "curtir"}/${props.reclamação._id}`;
+    const response = await fetch(url, { method: "POST" });
+
+    if (response.status === 200) {
       setCurtido(!curtido);
       setCurtidas(curtidas + (curtido ? -1 : 1));
+    } else {
+      alert("Faça login para curtir uma reclamação!");
     }
   };
 
