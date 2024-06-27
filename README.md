@@ -7,7 +7,7 @@ Deploy através do Render, disponível em [https://escola-transparente.onrender.
 ## 🛠️ Em progresso
 ### Características Principais
 * Responsividade: O site pode ser utilizado tanto em computadores quanto em celulares e tablets.
-* Relato de Reclamações: Os usuários poderão relatar reclamações sobre as condições das escolas, fornecendo detalhes sobre a infraestrutura precária.
+* Relato de Reclamações: Os usuários podem relatar reclamações sobre as condições das escolas, fornecendo detalhes sobre a infraestrutura precária, além de incluir imagens.
 * Transparência: A plataforma visa aumentar a transparência ao permitir que as pessoas compartilhem suas experiências e visualizem as reclamações relatadas por outros usuários.
 * Conscientização: Ao destacar as condições precárias das escolas, esperamos aumentar a conscientização sobre a importância de melhorar a infraestrutura educacional.
 
@@ -22,7 +22,8 @@ Deploy através do Render, disponível em [https://escola-transparente.onrender.
 
 ### Telas
 ### Landing e pesquisa mobile
-  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/606d20a3-ac88-49a7-b041-6e37a65d79ea" style="height: 250px;"/>
+
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/35944fd8-221c-4776-828d-b6c010e6fd3f" style="height: 250px;"/>
   <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/8f5614e2-8971-4980-9625-992977031897" style="height: 250px;"/>
   <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/50f6f2cf-ccb9-49eb-8c8e-9812689e91ba" style="height: 250px;"/>
 
@@ -31,11 +32,23 @@ Deploy através do Render, disponível em [https://escola-transparente.onrender.
 <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/c189b97a-08b7-4f5a-a248-b6dc3f326564" style="height: 250px">
 <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/55d5019c-88e4-446d-9b69-442bf11c50f6" style="height: 250px">
 
-
 ### Registro
   <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/b3d40b74-57c8-49cb-914b-c88de6b17301" style="height: 250px">
   <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/b41ea409-de89-44c1-8f5f-36301b776190" style="height: 250px">
 
 ### Reclamação
-  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/616fda70-be0b-4ea8-9985-edc739409765" style="height: 250px">
-  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/df79b530-811a-42cb-8097-6f99b52984e2" style="height: 250px">
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/095a445e-74dd-42b4-9013-c2016c1e8964" style="height: 250px">
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/aa78da93-a686-4678-a9cf-949b8b1a902e" style="height: 250px">
+
+### Escola
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/68a690c3-cda3-40f0-bb24-726715b751c0" style="height: 250px">
+  <img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/3fdc8590-c269-4198-87cb-beb397686347" style="height: 250px">
+
+### Home
+<img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/8cf8e78b-5d59-44de-bf7b-c1b83a311f52" style="height: 250px">
+<img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/c67c6030-6b66-41f7-9ed7-cb82edeb0fbb" style="height: 250px">
+
+### Home - Admin
+<img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/6a5e8abb-bdbc-4e30-99fc-b0c496af3b4f" style="height: 250px">
+<img src="https://github.com/Maruquitus/escola-transparente/assets/58173530/5b644529-9851-4b2f-b7a7-b6aab46d6062" style="height: 250px">
+
