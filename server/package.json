@@ -5,9 +5,9 @@
   "main": "main.ts",
   "scripts": {
     "start": "nodemon",
-    "start-react": "cd client && npm start",
-    "build": "cd client && npm run build",
-    "tailwind": "cd client && npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "start-react": "cd .. && cd client && npm start",
+    "build": "cd .. && cd client && npm run build",
+    "tailwind": "cd .. && cd client && npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "start-production": "npm run start",
     "start-dev": "concurrently \"npm run start\" \"npm run start-react\""
   },

@@ -1,10 +1,10 @@
 import util from "util";
 import multer from "multer";
 import { GridFsStorage } from "multer-gridfs-storage";
-import { getDB } from "../db";
+import { run } from "../config/db";
 import { Request } from "express";
 
-const dbPromise = getDB();
+const dbPromise = run();
 
 const uploadMiddleware = dbPromise
   .then((db: any) => {
@@ -21,7 +21,6 @@ const uploadMiddleware = dbPromise
         if (!file.mimetype.startsWith("image/")) {
           throw new Error("Apenas imagens podem ser enviadas!");
         }
-
 
         return {
           filename: `${Date.now()}-${file.originalname}`,

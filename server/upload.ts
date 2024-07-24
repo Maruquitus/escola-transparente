@@ -1,4 +1,4 @@
-import { database } from "./db";
+import { database } from "./config/db";
 import { Request, Response } from "express";
 import { uploadMiddleware } from "./middleware/upload";
 
