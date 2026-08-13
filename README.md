@@ -4,7 +4,6 @@ A Escola Transparente é uma plataforma dedicada a fornecer um espaço para rela
 
 Deploy através do Render, disponível em [https://escola-transparente.onrender.com/](https://escola-transparente.onrender.com)
 
-## 🛠️ Em progresso
 ### Características Principais
 * Responsividade: O site pode ser utilizado tanto em computadores quanto em celulares e tablets.
 * Relato de Reclamações: Os usuários podem relatar reclamações sobre as condições das escolas, fornecendo detalhes sobre a infraestrutura precária, além de incluir imagens.
